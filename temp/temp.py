@@ -13,5 +13,9 @@ except:
 
 browser.get(vtopbeta_elem.text)
 
+username_elem = browser.find_element_by_css_selector('#uname')
+password_elem = browser.find_element_by_css_selector('#passwd')
+
+
 
 browser.quit()

@@ -42,3 +42,9 @@ JavaScript error: resource://gre/components/nsUrlClassifierListManager.js, line 
 JavaScript error: resource://gre/components/nsUrlClassifierListManager.js, line 287: NS_ERROR_NOT_INITIALIZED: Component returned failure code: 0xc1f30001 (NS_ERROR_NOT_INITIALIZED) [nsIUrlClassifierDBService.getTables]
 JavaScript error: resource://gre/components/nsUrlClassifierListManager.js, line 287: NS_ERROR_NOT_INITIALIZED: Component returned failure code: 0xc1f30001 (NS_ERROR_NOT_INITIALIZED) [nsIUrlClassifierDBService.getTables]
 1528590367360	Marionette	INFO	Ceased listening
+1528623854705	geckodriver	INFO	geckodriver 0.20.1
+1528623854762	geckodriver	INFO	Listening on 127.0.0.1:35553
+1528623854823	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.cctEtwlDjr8R"
+1528623864230	Marionette	INFO	Listening on port 33367
+1528623864302	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://vtopbeta.vit.ac.in/vtop/assets/jquery-ui/jquery-ui.js, line 16782: TypeError: jQuery.fx is undefined
