@@ -5,7 +5,9 @@ from selenium import webdriver
 
 
 #2. Open a controllable browser using Selenium webdriver module
-browser = webdriver.Firefox()
+profile = webdriver.FirefoxProfile()
+profile.set_preference('webdriver_accept_untrusted_certs', True)
+browser = webdriver.Firefox(firefox_profile = profile)
 
 #3. Open vtop home page
 browser.get('http://vtop.vit.ac.in')
@@ -33,7 +35,7 @@ login_page_link_elem.click()
 try:
     username_elem = browser.find_element_by_css_selector('#uname')
     password_elem = browser.find_element_by_css_selector('#passwd')
-    captcha_elem = browser.find_element_by_css_selector()
+    captcha_elem = browser.find_element_by_css_selector('#captchaCheck')
     captcha_img_elem = browser.find_element_by_css_selector('img[alt = "vtopCaptcha"]')
 except:
     print('Input elements with the given css selectors were not found')
