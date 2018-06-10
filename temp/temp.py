@@ -2,6 +2,7 @@
 
 import requests, sys
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 
 #2. Open a controllable browser using Selenium webdriver module
@@ -29,7 +30,7 @@ try:
 except:
     print('Check the css selector for the button leading to the login page')
     sys.exit()
-login_page_link_elem.click()
+login_page_link_elem.send_keys(Keys.CONTROL + 't')
 
 #7. From the login page, find the input elements (uname and pwd boxes and captcha box)
 try:
