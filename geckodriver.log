@@ -445,3 +445,11 @@ JavaScript error: https://vtopbeta.vit.ac.in/vtop/assets/jquery-ui/jquery-ui.js,
 1528625703575	addons.manager	DEBUG	Calling shutdown blocker for PluginProvider
 1528625703575	addons.manager	DEBUG	Calling shutdown blocker for PreviousExperimentProvider
 1528625703578	addons.manager	DEBUG	Async provider shutdown done
+1528625783561	geckodriver	INFO	geckodriver 0.20.1
+1528625783565	geckodriver	INFO	Listening on 127.0.0.1:53275
+1528625784570	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.BTh6yfSDba08"
+1528625788442	Marionette	INFO	Listening on port 36763
+1528625788493	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://vtopbeta.vit.ac.in/vtop/assets/jquery-ui/jquery-ui.js, line 16782: TypeError: jQuery.fx is undefined
+JavaScript error: https://vtopbeta.vit.ac.in/vtop/executeApp/?gsid=6009921, line 238: ReferenceError: $ is not defined
+JavaScript error: https://vtopbeta.vit.ac.in/vtop/executeApp/?gsid=6009921, line 279: ReferenceError: $ is not defined
