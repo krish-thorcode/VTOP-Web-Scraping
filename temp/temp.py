@@ -1,5 +1,5 @@
 #1. Make the imports
-import requests, sys
+import requests, sys, pytesseract
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -7,7 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-
+from PIL import Image
 #2. Define a function that opens a link in new tab
 def open_in_new_tab(browser, element):
     ActionChains(browser). \
@@ -22,7 +22,7 @@ profile.set_preference('webdriver_accept_untrusted_certs', True)
 browser = webdriver.Firefox(firefox_profile = profile)
 
 #4. Create wait object
-waiting = WebDriverWait(browser,40)
+waiting = WebDriverWait(browser,300)
 
 #5. Open vtop home page
 browser.get('http://vtop.vit.ac.in')
@@ -66,12 +66,36 @@ try:
     captcha_elem = browser.find_element_by_css_selector('#captchaCheck')
     print('Acquired the captcha textbox')
     captcha_img_elem = browser.find_element_by_css_selector('img[alt = "vtopCaptcha"]')
-except NoSuchElementException:
-    print('Input elements with the given css selectors were not found')
+except NoSuchElementException as err:
+    print('Input elements with the given css selectors were not found: ' + err)
     sys.exit()
 
 #10. Find the image source of the captcha image
 captcha_img_src = captcha_img_elem.get_attribute('src')
-print(captcha_img_src)
+print(type(captcha_img_src))
+# print(captcha_img_src)
+
+#11. Download the captcha image using the captcha_img_src
+base64_img = captcha_img_src[15:]
+print(base64_img)
+
+# try:
+#     res_img_bsae64str = requests.get(captcha_img_src)
+#     res_img.raise_for_status()
+# except:
+#     print('Make sure the image source is corrrect.')
+#     sys.exit()
+
+#12. Save the captcha image
+# captcha_img = open('captcha.jpg','wb')
+# for chunk in res_img.iter_content(100000):
+#     captcha_img.write(chunk)
+# captcha_img.close()
+#
+# #13. Convert the image into string
+# captcha_img = Image.open('captcha_img.jpg') # using the same variable so that it will be overwritten with current returned value
+# captcha_str = pytesseract.image_to_string(captcha_img)
+#
+# print(captcha_str)
 
 browser.quit()
