@@ -1,5 +1,5 @@
 #1. Make the imports
-import requests, sys, pytesseract
+import requests, sys, pytesseract, base64
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -72,11 +72,10 @@ except NoSuchElementException as err:
 
 #10. Find the image source of the captcha image
 captcha_img_src = captcha_img_elem.get_attribute('src')
-print(type(captcha_img_src))
 # print(captcha_img_src)
 
 #11. Download the captcha image using the captcha_img_src
-base64_img = captcha_img_src[15:]
+base64_img = captcha_img_src[22:]
 print(base64_img)
 
 # try:
