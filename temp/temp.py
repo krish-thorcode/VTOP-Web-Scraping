@@ -1,9 +1,15 @@
 #1. Make the imports
-
 import requests, sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 
+def open_in_new_tab(browser, element):
+    ActionChains(browser). \
+    key_down(Keys.CONTROL). \
+    click(element). \
+    key_up(Keys.CONTROL). \
+    perform()
 
 #2. Open a controllable browser using Selenium webdriver module
 profile = webdriver.FirefoxProfile()
@@ -21,8 +27,9 @@ except:
     print('No element with attribute value a[href="https://vtopbeta.vit.ac.in/vtop"] was found')
     sys.exit()
 
-#5. Open vtopbeta pag
-browser.get(vtopbeta_elem.text)
+#5. Open vtopbeta page in new tab and then switch tab
+open_in_new_tab(browser, vtopbeta_elem)
+browser.switch_to_window(browser.window_handles[1]) # important!!
 
 #6. Find the link to login page on vtopbeta captcha_img_elem and click on the elem to open the next page, ie, the login page
 try:
@@ -30,7 +37,8 @@ try:
 except:
     print('Check the css selector for the button leading to the login page')
     sys.exit()
-login_page_link_elem.send_keys(Keys.CONTROL + 't')
+open_in_new_tab(browser, login_page_link_elem)
+browser.switch_to_window(browser.window_handles[2])
 
 #7. From the login page, find the input elements (uname and pwd boxes and captcha box)
 try:
