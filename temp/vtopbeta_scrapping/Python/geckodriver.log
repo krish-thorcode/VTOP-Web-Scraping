@@ -1589,3 +1589,22 @@ JavaScript error: https://vtopbeta.vit.ac.in/vtop/assets/jquery-ui/jquery-ui.js,
 1528804973999	addons.productaddons	INFO	Completed downloading document
 1528804975765	addons.productaddons	INFO	downloadXHR File download. status=200
 1528804975776	addons.productaddons	INFO	Downloaded file will be saved to /tmp/tmpaddon-c3f9fd
+1528805224918	addons.xpi	DEBUG	Calling bootstrap method shutdown on webcompat@mozilla.org version 1.1
+1528805224919	addons.xpi	DEBUG	Calling bootstrap method shutdown on screenshots@mozilla.org version 30.1.0
+1528805224925	addons.xpi	DEBUG	Calling bootstrap method shutdown on onboarding@mozilla.org version 1.0
+1528805224926	addons.xpi	DEBUG	Calling bootstrap method shutdown on langpack-en-ZA@firefox.mozilla.org version 60.0
+1528805224929	addons.xpi	DEBUG	Calling bootstrap method shutdown on langpack-en-GB@firefox.mozilla.org version 60.0
+1528805224931	addons.xpi	DEBUG	Calling bootstrap method shutdown on formautofill@mozilla.org version 1.0
+1528805224932	addons.xpi	DEBUG	Calling bootstrap method shutdown on followonsearch@mozilla.com version 0.9.6
+1528805224932	addons.xpi	DEBUG	Calling bootstrap method shutdown on firefox@getpocket.com version 1.0.5
+1528805224932	addons.xpi	DEBUG	Calling bootstrap method shutdown on aushelper@mozilla.org version 2.0
+1528805224933	addons.xpi	DEBUG	Calling bootstrap method shutdown on activity-stream@mozilla.org version 2018.04.20.1103-b3b95672
+1528805224978	addons.manager	DEBUG	shutdown
+1528805224982	addons.manager	DEBUG	Calling shutdown blocker for XPIProvider
+1528805224982	addons.xpi	DEBUG	shutdown
+1528805224982	addons.xpi-utils	DEBUG	shutdown
+1528805224982	addons.manager	DEBUG	Calling shutdown blocker for LightweightThemeManager
+1528805224982	addons.manager	DEBUG	Calling shutdown blocker for GMPProvider
+1528805224982	addons.manager	DEBUG	Calling shutdown blocker for PluginProvider
+1528805224983	addons.manager	DEBUG	Calling shutdown blocker for PreviousExperimentProvider
+1528805224987	addons.manager	DEBUG	Async provider shutdown done
