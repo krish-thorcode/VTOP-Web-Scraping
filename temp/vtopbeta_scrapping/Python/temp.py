@@ -9,13 +9,11 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from PIL import Image
 from parser import CaptchaParse
-#2. Define a function that opens a link in new tab
-def open_in_new_tab(browser, element):
-    ActionChains(browser). \
-    key_down(Keys.CONTROL). \
-    click(element). \
-    key_up(Keys.CONTROL). \
-    perform()
+
+#2. Check the number of arguments
+if(len(sys.argv) < 2):
+    print('Please enter both your registration number as well as password!')
+    sys.exit()
 
 #3. Open a controllable browser using Selenium webdriver module
 profile = webdriver.FirefoxProfile()
@@ -31,7 +29,7 @@ browser.get('http://vtop.vit.ac.in')
 #6. Find the link to the vtopbeta page
 try:
     vtopbeta_elem = browser.find_element_by_css_selector('a[href = "https://vtopbeta.vit.ac.in/vtop"] font b')
-    print('Found element that href\'s to vtopbeta')
+    # print('Found element that href\'s to vtopbeta')
 except:
     print('No element with attribute value a[href="https://vtopbeta.vit.ac.in/vtop"] was found')
     sys.exit()
@@ -47,7 +45,7 @@ browser.get(vtopbeta_elem.text)
 try:
     # waiting.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.btn.btn-primary.pull-right')))
     login_page_link_elem = browser.find_element_by_css_selector('.btn.btn-primary.pull-right')
-    print('Found element that href\'s to the login page')
+    # print('Found element that href\'s to the login page')
 except NoSuchElementException:
     print('Check the css selector for the button leading to the login page: ' + str(err))
     sys.exit()
@@ -61,11 +59,11 @@ browser.switch_to_window(browser.window_handles[1])
 try:
     waiting.until(EC.presence_of_element_located((By.ID, 'captchaCheck')))
     username_elem = browser.find_element_by_css_selector('#uname')
-    print('Acquired the uname textbox')
+    # print('Acquired the uname textbox')
     password_elem = browser.find_element_by_css_selector('#passwd')
-    print('Acquired the password textbox')
+    # print('Acquired the password textbox')
     captcha_elem = browser.find_element_by_css_selector('#captchaCheck')
-    print('Acquired the captcha textbox')
+    # print('Acquired the captcha textbox')
     captcha_img_elem = browser.find_element_by_css_selector('img[alt = "vtopCaptcha"]')
 except NoSuchElementException as err:
     print('Input elements with the given css selectors were not found: ' + err)
@@ -87,6 +85,20 @@ captcha_img.close()
 #13. Convert the image into string
 img = Image.open('./captcha_save/captcha.png')
 captcha_str = CaptchaParse(img)
-print(captcha_str)
+# print(captcha_str)
 
-browser.quit()
+#13. Fill in login details
+username_elem.send_keys(sys.argv[1])
+password_elem.send_keys(sys.argv[2])
+captcha_elem.send_keys(captcha_str)
+
+#14. Sign in
+# note: the form doesn't have a submit button, the sign in button is not the submit button
+# so maybe that is why using submit method on form elements leads to a page that doesn't exist
+
+signin_button = browser.find_element_by_css_selector('.btn.btn-primary.pull-right')
+signin_button.click()
+
+#TODO: scrapped the profile to obtain different informations- time table of currrent day, for eg
+
+# browser.quit()
