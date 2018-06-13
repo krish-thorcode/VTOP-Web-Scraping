@@ -12,6 +12,8 @@ from parser import CaptchaParse
 #2. Read registration number and password from user-inputs
 registration_num = input('Enter username: ')
 password = getpass.getpass('Enter password: ')
+print('Connecting...')
+print('Opening browser...')
 
 #3. Open a controllable browser using Selenium webdriver module
 profile = webdriver.FirefoxProfile()
@@ -22,7 +24,11 @@ browser = webdriver.Firefox(firefox_profile = profile)
 waiting = WebDriverWait(browser,300)
 
 #5. Open vtop home page
-browser.get('http://vtop.vit.ac.in')
+try:
+    browser.get('http://vtop.vit.ac.in')
+except:
+    print('Check your internet connection!')
+    sys.exit()
 
 #6. Find the link to the vtopbeta page
 try:
@@ -91,5 +97,12 @@ signin_button = browser.find_element_by_css_selector('.btn.btn-primary.pull-righ
 signin_button.click()
 
 #TODO: scrapped the profile to obtain different informations- time table of currrent day, for eg
-
+#14. Open the menu on the left using the toggle hamburger button- first find the button and then click
+waiting.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[role = "button"]')))
+hamburger_elem = browser.find_element_by_css_selector('a[role = "button"]')
+hamburger_elem.click()
 # browser.quit()
+
+#15. Find the Academics option in the left menu and click on it
+academics_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.tree>li:nth-child(2)')
+academics_elem.click()
