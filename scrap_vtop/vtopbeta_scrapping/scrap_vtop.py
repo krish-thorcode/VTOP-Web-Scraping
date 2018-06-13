@@ -1,17 +1,29 @@
 #1. Make the imports
-import requests, sys, pytesseract, base64, getpass
+import requests, sys, pytesseract, base64, getpass, datetime
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import Select
 from PIL import Image
 from parser import CaptchaParse
 
-#2. Read registration number and password from user-inputs
+#2. Read registration number, password and semester from user-inputs
 registration_num = input('Enter username: ')
 password = getpass.getpass('Enter password: ')
+semester = input('Semester- Fall/Winter: ')
+
+if registration_num == '' or password == '' or semester == '':
+    print('None of registration number, password, semster fields can be left empty.')
+    sys.exit()
+
+today = datetime.datetime.now()
+semester = semester.capitalize() + ' Semester ' + str(today.year-1) + '-' + str(today.year%2000 + 1 - 1)
+# print(semester)
+# sys.exit()
+
 print('Connecting...')
 print('Opening browser...')
 
@@ -106,3 +118,15 @@ hamburger_elem.click()
 #15. Find the Academics option in the left menu and click on it
 academics_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.tree>li:nth-child(2)')
 academics_elem.click()
+
+#16. Get the time table element and click on it
+timetable_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.tree>li:nth-child(2) li:nth-child(2)>a span')
+timetable_elem.click()
+
+#17. Get the select element that has the list of semesters
+waiting.until(EC.presence_of_element_located((By.ID, 'semesterSubId')))
+selectsem_elem = browser.find_element_by_id('semesterSubId')
+selectsem_elem = Select(selectsem_elem)
+
+#18. Select the semester as entered by the user from the list
+selectsem_elem.select_by_visible_text(semester)
