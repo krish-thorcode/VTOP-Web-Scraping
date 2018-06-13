@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from PIL import Image
 from parser import CaptchaParse
 
-#2. Input registration number and password
+#2. Read registration number and password from user-inputs
 registration_num = input('Enter username: ')
 password = getpass.getpass('Enter password: ')
 
@@ -33,23 +33,17 @@ except:
     print('No element with attribute value a[href="https://vtopbeta.vit.ac.in/vtop"] was found')
     sys.exit()
 
-#7. Open vtopbeta page in new tab and then switch tab
-# open_in_new_tab(browser, vtopbeta_elem)
-# vtopbeta_elem.click()
+#7. Open vtopbeta
 browser.get(vtopbeta_elem.text)
-# waiting.until(lambda browser: len(browser.window_handles) == 2)
-# browser.switch_to_window(browser.window_handles[1]) # important!!
 
 #8. Find the link to login page on vtopbeta captcha_img_elem and click on the elem to open the next page, ie, the login page
 try:
-    # waiting.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.btn.btn-primary.pull-right')))
     login_page_link_elem = browser.find_element_by_css_selector('.btn.btn-primary.pull-right')
     # print('Found element that href\'s to the login page')
 except NoSuchElementException:
     print('Check the css selector for the button leading to the login page: ' + str(err))
     sys.exit()
-# open_in_new_tab(browser, login_page_link_elem)
-# print(login_page_link_elem.text)
+
 login_page_link_elem.click()
 waiting.until(lambda browser: len(browser.window_handles) == 2)
 browser.switch_to_window(browser.window_handles[1])
@@ -94,7 +88,6 @@ captcha_elem.send_keys(captcha_str)
 #14. Sign in
 # note: the form doesn't have a submit button, the sign in button is not the submit button
 # so maybe that is why using submit method on form elements leads to a page that doesn't exist
-
 signin_button = browser.find_element_by_css_selector('.btn.btn-primary.pull-right')
 signin_button.click()
 
