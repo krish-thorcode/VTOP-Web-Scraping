@@ -1,5 +1,5 @@
 #1. Make the imports
-import requests, sys, pytesseract, base64
+import requests, sys, pytesseract, base64, getpass
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -10,10 +10,9 @@ from selenium.common.exceptions import NoSuchElementException
 from PIL import Image
 from parser import CaptchaParse
 
-#2. Check the number of arguments
-if(len(sys.argv) < 2):
-    print('Please enter both your registration number as well as password!')
-    sys.exit()
+#2. Input registration number and password
+registration_num = input('Enter username: ')
+password = getpass.getpaass('Enter password: ')
 
 #3. Open a controllable browser using Selenium webdriver module
 profile = webdriver.FirefoxProfile()
@@ -88,8 +87,8 @@ captcha_str = CaptchaParse(img)
 # print(captcha_str)
 
 #13. Fill in login details
-username_elem.send_keys(sys.argv[1])
-password_elem.send_keys(sys.argv[2])
+username_elem.send_keys(registration_num)
+password_elem.send_keys(password)
 captcha_elem.send_keys(captcha_str)
 
 #14. Sign in
