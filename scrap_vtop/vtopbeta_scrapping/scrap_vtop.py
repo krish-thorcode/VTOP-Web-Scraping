@@ -12,7 +12,7 @@ from parser import CaptchaParse
 
 #2. Input registration number and password
 registration_num = input('Enter username: ')
-password = getpass.getpaass('Enter password: ')
+password = getpass.getpass('Enter password: ')
 
 #3. Open a controllable browser using Selenium webdriver module
 profile = webdriver.FirefoxProfile()
