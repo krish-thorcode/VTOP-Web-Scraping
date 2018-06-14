@@ -11,12 +11,12 @@ from PIL import Image
 from parser import CaptchaParse
 
 #2. Read registration number, password and semester from user-inputs
-registration_num = input('Enter username: ')
+registration_num = input('Enter registration number: ')
 password = getpass.getpass('Enter password: ')
 semester = input('Semester- Fall/Winter: ')
 
 if registration_num == '' or password == '' or semester == '':
-    print('None of registration number, password, semster fields can be left empty.')
+    print('None of registration number, password, semester fields can be left empty.')
     sys.exit()
 
 today = datetime.datetime.now()
@@ -110,10 +110,13 @@ signin_button.click()
 
 #TODO: scrapped the profile to obtain different informations- time table of currrent day, for eg
 #14. Open the menu on the left using the toggle hamburger button- first find the button and then click
-waiting.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[role = "button"]')))
+try:
+    waiting.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[role = "button"]')))
+except TimeoutException:
+    print('Wrong registration number/password')
+    sys.exit()
 hamburger_elem = browser.find_element_by_css_selector('a[role = "button"]')
 hamburger_elem.click()
-# browser.quit()
 
 #15. Find the Academics option in the left menu and click on it
 academics_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.tree>li:nth-child(2)')
@@ -126,7 +129,44 @@ timetable_elem.click()
 #17. Get the select element that has the list of semesters
 waiting.until(EC.presence_of_element_located((By.ID, 'semesterSubId')))
 selectsem_elem = browser.find_element_by_id('semesterSubId')
-selectsem_elem = Select(selectsem_elem)
+selectsem_elem_selectobj = Select(selectsem_elem)
 
 #18. Select the semester as entered by the user from the list
-selectsem_elem.select_by_visible_text(semester)
+selectsem_elem_selectobj.select_by_visible_text(semester)
+selectsem_elem.submit()
+
+#19. Make out daywise slots, find current day name, see what slots are there for the day
+daywise_slots_th = {
+    'Monday': ['A1','F1','D1','TB1','TG1','A2','F2','D2','TB2','TG2'],
+    'Tuesday': ['B1','G1','E1','TC1','TAA1','B2','G2','E2','TC2','TAA2'],
+    'Wednesday': ['C1','A1','F1','V1','V2','C2','A2','F2','TD2','TBB2'],
+    'Thursday': ['D1','B1','G1','TE1','TCC1','D2','B2','G2','TE2','TCC2'],
+    'Friday': ['E1','C1','TA1','TF1','TD1','E2','C2','TA2','TF2','TD2']
+    # 'Saturday': ['V8','X1','Y1','X2','Z','Y2','W2','V9'],
+    # 'Sunday': ['V10','Y1','X1','Y2','Z','X2','W2','V11']
+}
+
+daywise_slots_lab = {
+    'Monday': ['L1','L2','L3','L4','L5','L6','L31','L32','L33','L34','L35','L36'],
+    'Tuesday': ['L7','L8','L9','L10','L11','L12','L37','L38','L39','L40','L41','L42'],
+    'Wednesday': ['L13','L14','L15','L16','L43','L44','L45','L46','L47','L48'],
+    'Thursday': ['L19','L20','L21','L22','L23','L24','L49','L50','L51','L52','L53','L54'],
+    'Friday': ['L25','L26','L27','L28','L29','L30','L55','L56','L57','L58','L59','L60']
+}
+
+day_timing_slots = ['8.00 - 8.50','9.00 - 9.50','10.00 - 10.50','11.00  11.50', \
+    '12.00 - 12.50','2.00 - 2.50','03.00 - 3.50','4.00 - 4.50','5.00 - 5.50','6.00 - 6.50']
+
+dayname_full = today.strftime('%A')
+dayname_short = today.strftime('%a')
+day_slots_th = daywise_slots_th[dayname_full]
+daywise_slots_lab = daywise_slots_lab[dayname_full]
+
+#20. Scrap time table for the day
+day_of_the_week = today.strftime('%w')
+row_nums_to_scrape = (day_of_the_week + 5 + 2*day_of_the_week, day_of_the_week + 6 + 2*day_of_the_week)
+
+th_row_to_scrape = browser.find_element_by_css_selector('#timeTableStyle tbody tr:nth-child(%d)' % str(row_nums_to_scrape[0]))
+lab_row_to_scrape = browser.find_element_by_css_selector('#timeTableStyle tbody tr:nth-child(%d)' % str(row_nums_to_scrape[1]))
+print(th_row_to_scrape)
+print(lab_row_to_scrape)
