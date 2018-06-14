@@ -13273,3 +13273,22 @@ JavaScript error: https://vtopbeta.vit.ac.in/vtop/assets/jquery-ui/jquery-ui.js,
 1528956569164	addons.productaddons	INFO	Downloaded file will be saved to /tmp/tmpaddon-e2d2e5
 1528956894355	addons.manager	DEBUG	Background update check beginning
 1528956894356	addons.manager	DEBUG	Background update check complete
+1528958460967	addons.xpi	DEBUG	Calling bootstrap method shutdown on webcompat@mozilla.org version 1.1
+1528958460967	addons.xpi	DEBUG	Calling bootstrap method shutdown on screenshots@mozilla.org version 30.1.0
+1528958460973	addons.xpi	DEBUG	Calling bootstrap method shutdown on onboarding@mozilla.org version 1.0
+1528958460973	addons.xpi	DEBUG	Calling bootstrap method shutdown on langpack-en-ZA@firefox.mozilla.org version 60.0
+1528958460976	addons.xpi	DEBUG	Calling bootstrap method shutdown on langpack-en-GB@firefox.mozilla.org version 60.0
+1528958460978	addons.xpi	DEBUG	Calling bootstrap method shutdown on formautofill@mozilla.org version 1.0
+1528958460979	addons.xpi	DEBUG	Calling bootstrap method shutdown on followonsearch@mozilla.com version 0.9.6
+1528958460979	addons.xpi	DEBUG	Calling bootstrap method shutdown on firefox@getpocket.com version 1.0.5
+1528958460979	addons.xpi	DEBUG	Calling bootstrap method shutdown on aushelper@mozilla.org version 2.0
+1528958460980	addons.xpi	DEBUG	Calling bootstrap method shutdown on activity-stream@mozilla.org version 2018.04.20.1103-b3b95672
+1528958461034	addons.manager	DEBUG	shutdown
+1528958461035	addons.manager	DEBUG	Calling shutdown blocker for XPIProvider
+1528958461035	addons.xpi	DEBUG	shutdown
+1528958461035	addons.xpi-utils	DEBUG	shutdown
+1528958461035	addons.manager	DEBUG	Calling shutdown blocker for LightweightThemeManager
+1528958461035	addons.manager	DEBUG	Calling shutdown blocker for GMPProvider
+1528958461036	addons.manager	DEBUG	Calling shutdown blocker for PluginProvider
+1528958461036	addons.manager	DEBUG	Calling shutdown blocker for PreviousExperimentProvider
+1528958461039	addons.manager	DEBUG	Async provider shutdown done
