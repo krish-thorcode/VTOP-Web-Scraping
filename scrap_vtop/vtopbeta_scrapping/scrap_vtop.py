@@ -14,7 +14,7 @@ from parser import CaptchaParse
 registration_num = input('Enter registration number: ')
 password = getpass.getpass('Enter password: ')
 semester = input('Semester- Fall/Winter: ')
-
+print('** make sure you enter correct registration number and password **')
 if registration_num == '' or password == '' or semester == '':
     print('None of registration number, password, semester fields can be left empty.')
     sys.exit()
@@ -24,8 +24,7 @@ semester = semester.capitalize() + ' Semester ' + str(today.year-1) + '-' + str(
 # print(semester)
 # sys.exit()
 
-print('Connecting...')
-print('Opening browser...')
+print('Attempting to log you in...')
 
 #3. Open a controllable browser using Selenium webdriver module
 # profile = webdriver.FirefoxProfile()
@@ -111,10 +110,11 @@ signin_button = browser.find_element_by_css_selector('.btn.btn-primary.pull-righ
 signin_button.click()
 
 #15. Handle wrong reg/pwd inputs
-time.sleep(3)
-if not EC.visibility_of_element_located((By.CSS_SELECTOR, '.user-image')):
-    print('Wrong registration number or password! Try again!')
-    sys.exit()
+# time.sleep(3)
+# print(EC.visibility_of_element_located((By.CSS_SELECTOR, '.user=image')))
+# if not EC.visibility_of_element_located((By.CSS_SELECTOR, '.user-image')):
+#     print('Wrong registration number or password! Try again!')
+#     sys.exit()
 
 #TODO: scrapped the profile to obtain different informations- time table of currrent day, for eg
 #14. Open the menu on the left using the toggle hamburger button- first find the button and then click
@@ -176,7 +176,8 @@ daywise_slots_lab = daywise_slots_lab[dayname_full]
 #20. Scrap time table for the day
 day_of_the_week = today.strftime('%w')
 day_of_the_week = int(day_of_the_week)
-row_nums_to_scrape = ((day_of_the_week + 5 + 2*day_of_the_week), (day_of_the_week + 6 + 2*day_of_the_week))
+print('day num: ' + str(day_of_the_week))
+row_nums_to_scrape = (2*day_of_the_week + 3, 2*day_of_the_week + 3)
 
 th_row_to_scrape = browser.find_element_by_css_selector('#timeTableStyle tbody tr:nth-child(%d)' % row_nums_to_scrape[0])
 lab_row_to_scrape = browser.find_element_by_css_selector('#timeTableStyle tbody tr:nth-child(%d)' % row_nums_to_scrape[1])
