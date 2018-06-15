@@ -2,8 +2,8 @@
 import requests, sys, pytesseract, base64, getpass, datetime, time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.support.wait import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
@@ -32,10 +32,11 @@ print('Attempting to log you in...')
 # browser = webdriver.Firefox(firefox_profile = profile)
 chromedriver = './chromedriver'
 browser = webdriver.Chrome(chromedriver)
-browser.implicitly_wait(300)
+# browser.implicitly_wait(300)
 browser.maximize_window()
+
 #4. Create wait object
-# waiting = WebDriverWait(browser,300)
+waiting = WebDriverWait(browser,300)
 
 #5. Open vtop home page
 try:
@@ -64,12 +65,12 @@ except NoSuchElementException:
     sys.exit()
 
 login_page_link_elem.click()
-# waiting.until(lambda browser: len(browser.window_handles) == 2)
+waiting.until(lambda browser: len(browser.window_handles) == 2)
 browser.switch_to_window(browser.window_handles[1])
 
 #9. From the login page, find the input elements (uname and pwd boxes and captcha box)
 try:
-    # waiting.until(EC.presence_of_element_located((By.ID, 'captchaCheck')))
+    waiting.until(EC.presence_of_element_located((By.ID, 'captchaCheck')))
     username_elem = browser.find_element_by_css_selector('#uname')
     # print('Acquired the uname textbox')
     password_elem = browser.find_element_by_css_selector('#passwd')
@@ -111,15 +112,19 @@ signin_button = browser.find_element_by_css_selector('.btn.btn-primary.pull-righ
 signin_button.click()
 
 #15. Handle wrong reg/pwd inputs
-# WebDriverWait(b   rowser, 3).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.user-image'))
+try:
+    WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.user-image'))
+except:
+    print('Wrong registration number/password')
+    sys.exit()
 
 #TODO: scrapped the profile to obtain different informations- time table of currrent day, for eg
 #14. Open the menu on the left using the toggle hamburger button- first find the button and then click
-# try:
-    # waiting.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[role = "button"]')))
-# except:
-#     print('VTOP taking too long to respond!')
-#     sys.exit()
+try:
+    waiting.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[role = "button"]')))
+except:
+    print('VTOP taking too long to respond!')
+    sys.exit()
 hamburger_elem = browser.find_element_by_css_selector('a[role = "button"]')
 hamburger_elem.click()
 
@@ -128,14 +133,14 @@ academics_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.t
 academics_elem.click()
 
 #16. Get the time table element and click on it
-# waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#dbMenu ul.sidebar-menu.tree>li:nth-child(2) li:nth-child(2)>a span')))
+waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#dbMenu ul.sidebar-menu.tree>li:nth-child(2) li:nth-child(2)>a span')))
 timetable_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.tree>li:nth-child(2) li:nth-child(2)>a span')
 print(timetable_elem)
 timetable_elem.click()
 hamburger_elem.click()
 
 #17. Get the select element that has the list of semesters
-# waiting.until(EC.presence_of_element_located((By.ID, 'semesterSubId')))
+waiting.until(EC.presence_of_element_located((By.ID, 'semesterSubId')))
 selectsem_elem = browser.find_element_by_id('semesterSubId')
 selectsem_elem_selectobj = Select(selectsem_elem)
 
