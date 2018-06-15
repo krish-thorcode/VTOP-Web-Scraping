@@ -176,7 +176,7 @@ dayname_short = today.strftime('%a')
 day_slots_th = daywise_slots_th[dayname_full]
 daywise_slots_lab = daywise_slots_lab[dayname_full]
 
-#20. Scrap time table for the day
+#20. Today's date information
 day_of_the_week = today.strftime('%w')
 day_of_the_week = int(day_of_the_week)
 
@@ -184,7 +184,9 @@ if day_of_the_week > 5:
     print('Today\'s holday!')
     sys.exit()
 
-print('day num: ' + str(day_of_the_week))
+# print('day num: ' + str(day_of_the_week))
+
+#21. Finding the row and cells in that row that are to be scraped corresponding to the day number for today
 row_nums_to_scrape = (2*day_of_the_week + 3, 2*day_of_the_week + 3)
 
 waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#timeTableStyle tbody tr:nth-child(%d)' % row_nums_to_scrape[1])))
@@ -194,9 +196,19 @@ lab_row_to_scrape = browser.find_element_by_css_selector('#timeTableStyle tbody 
 # print(lab_row_to_scrape)
 
 tds_for_th_row_to_scrape = th_row_to_scrape.find_elements_by_css_selector('#timeTableStyle tbody tr:nth-child(%d) td' % row_nums_to_scrape[0])
-print(tds_for_th_row_to_scrape)
+# print(tds_for_th_row_to_scrape)
 tds_for_lab_row_to_scrape = lab_row_to_scrape.find_elements_by_css_selector('#timeTableStyle tbody tr:nth-child(%d) td' % row_nums_to_scrape[1])
+tds_for_th_row_to_scrape = tds_for_th_row_to_scrape[2:]
+tds_for_lab_row_to_scrape = tds_for_lab_row_to_scrape[2:]
+#22. Scraping the cells
 
-# for td in tds_for_th_row_to_scrape:
-#     if td.text in daywise_slots_th or td.text == dayname_short or td.text == 'Theory':
-#         continue
+count = 1
+for td in tds_for_th_row_to_scrape:
+    if td.text in daywise_slots_th[dayname_full]:
+        count += 1
+        continue
+
+    # if td.text in or td.text == dayname_short or td.text == 'Theory':
+    #     continue
+
+    print(day_timing_slots[count] + ' - ' + td.text[0:8] + td.text[12:22])
