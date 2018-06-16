@@ -20,7 +20,7 @@ if registration_num == '' or password == '' or semester == '':
     sys.exit()
 
 today = datetime.datetime.now()
-semester = semester.capitalize() + ' Semester ' + str(today.year-1) + '-' + str(today.year%2000 + 1 - 1)
+semester = semester.capitalize() + ' Semester ' + str(today.year-1) + '-' + str(today.year%2000 + 1 - 1) + ' - ' + 'VLR'
 # print(semester)
 # sys.exit()
 
@@ -128,26 +128,34 @@ except:
 hamburger_elem = browser.find_element_by_css_selector('a[role = "button"]')
 hamburger_elem.click()
 
-#15. Find the Academics option in the left menu and click on it
+#15. Find the Academics option in the left menu and lick on it
 academics_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.tree>li:nth-child(2)')
 academics_elem.click()
 
 #16. Get the time table element and click on it
 waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#dbMenu ul.sidebar-menu.tree>li:nth-child(2) li:nth-child(2)>a span')))
-timetable_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.tree>li:nth-child(2) li:nth-child(2)>a span')
+coursepage_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.tree>li:nth-child(2) li:nth-child(4)>a span')
 # print(timetable_elem)
-timetable_elem.click()
+coursepage_elem.click()
 hamburger_elem.click()
 
-#17. Get the select element that has the list of semesters
-waiting.until(EC.presence_of_element_located((By.ID, 'semesterSubId')))
-selectsem_elem = browser.find_element_by_id('semesterSubId')
-selectsem_elem_selectobj = Select(selectsem_elem)
+#17. Let the user select semester name and course from the page manually
+# # waiting.until(EC.presence_of_element_located((By.ID, 'faculty')))
+# # selectsem_elem = browser.find_element_by_id('semesterSubId')
+# # selectsem_elem_selectobj = Select(selectsem_elem)
+# # selectcourse_elem = browser.find_element_by_id('courseCode')
+# selectcourse_elem_selectobj = Select(selectcourse_elem)
+print('Choose Semester Name and Course from the dropdown on the page.')
+waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.table')))
+
+#18. Use case 1: if user knows only the faculty name, ask the user to enter faculty name in prompt
+browser.execute_script('return confirm("Press OK if you have the faculty name.");')
 
 
-#18. Select the semester as entered by the user from the list
-selectsem_elem_selectobj.select_by_visible_text(semester)
-selectsem_elem.submit()
+selectslot_elem = browser.find_element_by_id('slotId')
+selectslot_elem_selectobj = Select(selectslot_elem)
+selectfaculty_elem = browser.find_element_by_id('faculty')
+selectfaculty_elem_selectobj = Select(selectfaculty_elem)
 
 #19. Make out daywise slots, find current day name, see what slots are there for the day
 daywise_slots_th = {
