@@ -144,74 +144,26 @@ print('Choose Semester Name and Course from the dropdown on the page.')
 waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.table')))
 
 #18. Use case 1: if user knows only the faculty name, ask the user to enter faculty name in prompt
-browser.execute_script('return confirm("Press OK if you have the faculty name.");')
+browser.execute_script('var faculty_known = confirm("Press OK if you have the faculty name."); document.body.setAttribute("faculty_known", faculty_known);')
+time.sleep(3)
+faculty_known = browser.find_element_by_tag_name('body').get_attribute('faculty_known') # boolean true/false saved in faculty_known
+# print('lalala' + faculty_known)
+if faculty_known == 'true':
+    js = '''
+            faculty_name = prompt("Enter faculty name");
+            all_rows = document.querySelectorAll('tbody tr');
+            number_of_rows = all_rows.length
 
+            for(var i = 0; i < all_rows.length; i++) {
+                all_tds = all_rows[i].querySelectorAll("td");
+                td_faculty_name = all_tds[6].textContent.slice(8, td_faculty_name.length)
 
-selectslot_elem = browser.find_element_by_id('slotId')
-selectslot_elem_selectobj = Select(selectslot_elem)
-selectfaculty_elem = browser.find_element_by_id('faculty')
-selectfaculty_elem_selectobj = Select(selectfaculty_elem)
+                if(td_faculty_name == faculty_name)
+                    continue;
+                else
+                    all_rows[i].style.display = "none";
+            }
 
-#19. Make out daywise slots, find current day name, see what slots are there for the day
-daywise_slots_th = {
-    'Monday': ['A1','F1','D1','TB1','TG1','A2','F2','D2','TB2','TG2'],
-    'Tuesday': ['B1','G1','E1','TC1','TAA1','B2','G2','E2','TC2','TAA2'],
-    'Wednesday': ['C1','A1','F1','V1','V2','C2','A2','F2','TD2','TBB2'],
-    'Thursday': ['D1','B1','G1','TE1','TCC1','D2','B2','G2','TE2','TCC2'],
-    'Friday': ['E1','C1','TA1','TF1','TD1','E2','C2','TA2','TF2','TD2']
-    # 'Saturday': ['V8','X1','Y1','X2','Z','Y2','W2','V9'],
-    # 'Sunday': ['V10','Y1','X1','Y2','Z','X2','W2','V11']
-}
-
-daywise_slots_lab = {
-    'Monday': ['L1','L2','L3','L4','L5','L6','L31','L32','L33','L34','L35','L36'],
-    'Tuesday': ['L7','L8','L9','L10','L11','L12','L37','L38','L39','L40','L41','L42'],
-    'Wednesday': ['L13','L14','L15','L16','L43','L44','L45','L46','L47','L48'],
-    'Thursday': ['L19','L20','L21','L22','L23','L24','L49','L50','L51','L52','L53','L54'],
-    'Friday': ['L25','L26','L27','L28','L29','L30','L55','L56','L57','L58','L59','L60']
-}
-
-day_timing_slots = ['8.00 - 8.50','9.00 - 9.50','10.00 - 10.50','11.00  11.50', \
-    '12.00 - 12.50','2.00 - 2.50','03.00 - 3.50','4.00 - 4.50','5.00 - 5.50','6.00 - 6.50']
-
-dayname_full = today.strftime('%A')
-dayname_short = today.strftime('%a')
-day_slots_th = daywise_slots_th[dayname_full]
-daywise_slots_lab = daywise_slots_lab[dayname_full]
-
-#20. Today's date information
-day_of_the_week = today.strftime('%w')
-day_of_the_week = int(day_of_the_week)
-
-if day_of_the_week > 5:
-    print('Today\'s holday!')
-    sys.exit()
-
-# print('day num: ' + str(day_of_the_week))
-
-#21. Finding the row and cells in that row that are to be scraped corresponding to the day number for today
-row_nums_to_scrape = (2*day_of_the_week + 3, 2*day_of_the_week + 3)
-
-waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#timeTableStyle tbody tr:nth-child(%d)' % row_nums_to_scrape[1])))
-th_row_to_scrape = browser.find_element_by_css_selector('#timeTableStyle tbody tr:nth-child(%d)' % row_nums_to_scrape[0])
-lab_row_to_scrape = browser.find_element_by_css_selector('#timeTableStyle tbody tr:nth-child(%d)' % row_nums_to_scrape[1])
-# print(th_row_to_scrape)
-# print(lab_row_to_scrape)
-
-tds_for_th_row_to_scrape = th_row_to_scrape.find_elements_by_css_selector('#timeTableStyle tbody tr:nth-child(%d) td' % row_nums_to_scrape[0])
-# print(tds_for_th_row_to_scrape)
-tds_for_lab_row_to_scrape = lab_row_to_scrape.find_elements_by_css_selector('#timeTableStyle tbody tr:nth-child(%d) td' % row_nums_to_scrape[1])
-tds_for_th_row_to_scrape = tds_for_th_row_to_scrape[2:]
-tds_for_lab_row_to_scrape = tds_for_lab_row_to_scrape[2:]
-#22. Scraping the cells
-
-count = 1
-for td in tds_for_th_row_to_scrape:
-    if td.text in daywise_slots_th[dayname_full]:
-        count += 1
-        continue
-
-    # if td.text in or td.text == dayname_short or td.text == 'Theory':
-    #     continue
-
-    print(day_timing_slots[count] + ' - ' + td.text[0:8] + td.text[12:22])
+            document.body.setAttribute("faculty_name", faculty_name)
+        '''
+    browser.execute_script(js)
