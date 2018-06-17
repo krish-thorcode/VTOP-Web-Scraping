@@ -140,11 +140,6 @@ coursepage_elem.click()
 hamburger_elem.click()
 
 #17. Let the user select semester name and course from the page manually
-# # waiting.until(EC.presence_of_element_located((By.ID, 'faculty')))
-# # selectsem_elem = browser.find_element_by_id('semesterSubId')
-# # selectsem_elem_selectobj = Select(selectsem_elem)
-# # selectcourse_elem = browser.find_element_by_id('courseCode')
-# selectcourse_elem_selectobj = Select(selectcourse_elem)
 print('Choose Semester Name and Course from the dropdown on the page.')
 waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.table')))
 
