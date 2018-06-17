@@ -145,12 +145,13 @@ waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.table')))
 
 #18. Use case 1: if user knows only the faculty name, ask the user to enter faculty name in prompt
 browser.execute_script('var faculty_known = confirm("Press OK if you have the faculty name."); document.body.setAttribute("faculty_known", faculty_known);')
-time.sleep(3)
+time.sleep(10)
 faculty_known = browser.find_element_by_tag_name('body').get_attribute('faculty_known') # boolean true/false saved in faculty_known
 # print('lalala' + faculty_known)
 if faculty_known == 'true':
     js = '''
             faculty_name = prompt("Enter faculty name");
+            console.log("hahaha");
             all_rows = document.querySelectorAll('tbody tr');
             number_of_rows = all_rows.length
 
@@ -167,3 +168,4 @@ if faculty_known == 'true':
             document.body.setAttribute("faculty_name", faculty_name)
         '''
     browser.execute_script(js)
+    time.sleep(30)
