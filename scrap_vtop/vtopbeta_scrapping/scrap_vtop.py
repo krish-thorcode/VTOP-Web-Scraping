@@ -158,7 +158,7 @@ if faculty_known == 'true':
                 all_tds = all_rows[i].querySelectorAll("td");
                 td_faculty_name = (all_tds[6].textContent.split(' - '))[1]
 
-                if(td_faculty_name == faculty_name) {
+                if(td_faculty_name == faculty_name.toUpperCase()) {
                     console.log('hahahah3');
                     continue;
                 }
