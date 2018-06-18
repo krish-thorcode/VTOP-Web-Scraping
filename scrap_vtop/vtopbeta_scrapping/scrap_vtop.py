@@ -13,14 +13,13 @@ from parser import CaptchaParse
 #2. Read registration number, password and semester from user-inputs
 registration_num = input('Enter registration number: ')
 password = getpass.getpass('Enter password: ')
-semester = input('Semester- Fall/Winter: ')
+
 print('** make sure you enter correct registration number and password **')
-if registration_num == '' or password == '' or semester == '':
+if registration_num == '' or password == '':
     print('None of registration number, password, semester fields can be left empty.')
     sys.exit()
 
 today = datetime.datetime.now()
-semester = semester.capitalize() + ' Semester ' + str(today.year-1) + '-' + str(today.year%2000 + 1 - 1) + ' - ' + 'VLR'
 # print(semester)
 # sys.exit()
 
@@ -146,26 +145,29 @@ waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.table')))
 #18. Use case 1: if user knows only the faculty name, ask the user to enter faculty name in prompt
 browser.execute_script('var faculty_known = confirm("Press OK if you have the faculty name."); document.body.setAttribute("faculty_known", faculty_known);')
 time.sleep(10)
-faculty_known = browser.find_element_by_tag_name('body').get_attribute('faculty_known') # boolean true/false saved in faculty_known
+faculty_known = str(browser.find_element_by_tag_name('body').get_attribute('faculty_known')) # boolean true/false saved in faculty_known
 # print('lalala' + faculty_known)
 if faculty_known == 'true':
     js = '''
             faculty_name = prompt("Enter faculty name");
             console.log("hahaha");
             all_rows = document.querySelectorAll('tbody tr');
-            number_of_rows = all_rows.length
+            console.log('hahahah2');
 
             for(var i = 0; i < all_rows.length; i++) {
                 all_tds = all_rows[i].querySelectorAll("td");
-                td_faculty_name = all_tds[6].textContent.slice(8, td_faculty_name.length)
+                td_faculty_name = (all_tds[6].textContent.split(' - '))[1]
 
-                if(td_faculty_name == faculty_name)
+                if(td_faculty_name == faculty_name) {
+                    console.log('hahahah3');
                     continue;
-                else
+                }
+                else {
+                    console.log('hahaha4');
                     all_rows[i].style.display = "none";
+                }
             }
-
-            document.body.setAttribute("faculty_name", faculty_name)
+            document.body.setAttribute("faculty_name", faculty_name);
         '''
     browser.execute_script(js)
     time.sleep(30)
