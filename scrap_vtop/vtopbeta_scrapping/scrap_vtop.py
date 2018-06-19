@@ -149,16 +149,17 @@ faculty_known = str(browser.find_element_by_tag_name('body').get_attribute('facu
 # print('lalala' + faculty_known)
 if faculty_known == 'true':
     js = '''
-            faculty_name = prompt("Enter faculty name");
+            var faculty_name = prompt("Enter faculty name");
             console.log("hahaha");
-            all_rows = document.querySelectorAll('tbody tr');
+            var all_rows = Array.prototype.slice.call(document.querySelectorAll('tbody tr'));
+            all_rows = all_rows.slice(1,);
             console.log('hahahah2');
 
             for(var i = 0; i < all_rows.length; i++) {
-                all_tds = all_rows[i].querySelectorAll("td");
-                td_faculty_name = (all_tds[6].textContent.split(' - '))[1]
+                var all_tds = Array.prototype.slice.call(all_rows[i].querySelectorAll("td"));
+                var td_faculty_name = (all_tds[6].textContent.split(' - '))[1];
 
-                if(td_faculty_name == faculty_name) {
+                if(td_faculty_name.includes(faculty_name.toUpperCase())) {
                     console.log('hahahah3');
                     continue;
                 }
