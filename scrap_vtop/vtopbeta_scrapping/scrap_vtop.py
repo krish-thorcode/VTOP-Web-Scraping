@@ -149,26 +149,32 @@ faculty_known = str(browser.find_element_by_tag_name('body').get_attribute('facu
 # print('lalala' + faculty_known)
 if faculty_known == 'true':
     js = '''
-            var faculty_name = prompt("Enter faculty name");
-            console.log("hahaha");
-            var all_rows = Array.prototype.slice.call(document.querySelectorAll('tbody tr'));
-            all_rows = all_rows.slice(1,);
-            console.log('hahahah2');
+            window.filterTable = function() {
+                var faculty_name = document.getElementById('faculty').value
+                console.log("hahaha");
+                var all_rows = Array.prototype.slice.call(document.querySelectorAll('tbody tr'));
+                all_rows = all_rows.slice(1,);
+                console.log('hahahah2');
 
-            for(var i = 0; i < all_rows.length; i++) {
-                var all_tds = Array.prototype.slice.call(all_rows[i].querySelectorAll("td"));
-                var td_faculty_name = (all_tds[6].textContent.split(' - '))[1];
+                for(var i = 0; i < all_rows.length; i++) {
+                    var all_tds = Array.prototype.slice.call(all_rows[i].querySelectorAll("td"));
+                    var td_faculty_name = (all_tds[6].textContent.split(' - '))[1];
 
-                if(td_faculty_name.includes(faculty_name.toUpperCase())) {
-                    console.log('hahahah3');
-                    continue;
+                    if(td_faculty_name.includes(faculty_name.toUpperCase())) {
+                        console.log('hahahah3');
+                        continue;
+                    }
+                    else {
+                        console.log('hahaha4');
+                        all_rows[i].style.display = "none";
+                    }
                 }
-                else {
-                    console.log('hahaha4');
-                    all_rows[i].style.display = "none";
-                }
+                document.body.setAttribute("faculty_name", faculty_name);
             }
-            document.body.setAttribute("faculty_name", faculty_name);
+
+            var faculty_selector_parent = document.getElementById('faculty').parentNode
+            faculty_selector_parent.innerHTML = "<input placeholder = 'Enter name of the faculty' onkeyup = 'filterTable()' class = 'form-control' id = 'faculty'>"
+
         '''
     browser.execute_script(js)
     time.sleep(30)
