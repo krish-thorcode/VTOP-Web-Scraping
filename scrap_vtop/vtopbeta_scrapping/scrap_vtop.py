@@ -162,6 +162,7 @@ if faculty_known == 'true':
 
                     if(td_faculty_name.includes(faculty_name.toUpperCase())) {
                         console.log('hahahah3');
+                        all_rows[i].style.display = "";
                         continue;
                     }
                     else {
