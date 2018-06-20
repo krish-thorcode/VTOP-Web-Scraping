@@ -214,7 +214,19 @@ try:
                         };
             '''
 
+    def find_element():
+        try:
+            course_plan_download_elem = browser.find_element_by_css_selector('a[href="/vtop/academics/common/coursePlanReport/"]')
+            return True
+        except:
+            return False
+
     while True:
         browser.execute_script(js)
+        if find_element():
+            break
+        else:
+            continue
+            
 except NoSuchWindowException:
     print('Either the browser is closed or the Authorization failed! Do comeback!')
