@@ -31,7 +31,7 @@ print('Attempting to log you in...')
 # browser = webdriver.Firefox(firefox_profile = profile)
 chromedriver = './chromedriver'
 browser = webdriver.Chrome(chromedriver)
-# browser.implicitly_wait(300)
+browser.implicitly_wait(20)
 browser.maximize_window()
 
 #4. Create wait object
@@ -142,13 +142,7 @@ hamburger_elem.click()
 print('Choose Semester Name and Course from the dropdown on the page.')
 waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.table')))
 
-#18. Use case 1: if user knows only the faculty name, ask the user to enter faculty name in prompt
-browser.execute_script('var faculty_known = confirm("Press OK if you have the faculty name."); document.body.setAttribute("faculty_known", faculty_known);')
-time.sleep(10)
-faculty_known = str(browser.find_element_by_tag_name('body').get_attribute('faculty_known')) # boolean true/false saved in faculty_known
-# print('lalala' + faculty_known)
-if faculty_known == 'true':
-    js = '''
+js = '''
             window.filterTable = function() {
                 var faculty_name = document.getElementById('faculty').value
                 console.log("hahaha");
@@ -169,13 +163,57 @@ if faculty_known == 'true':
                         console.log('hahaha4');
                         all_rows[i].style.display = "none";
                     }
-                }
+                };
                 document.body.setAttribute("faculty_name", faculty_name);
             }
 
+            document.querySelector('#getFacultyForCoursePage label').outerHTML = '<font color= "red">' + document.querySelector('#getFacultyForCoursePage label').outerHTML + '</font>'
+
             var faculty_selector_parent = document.getElementById('faculty').parentNode
-            faculty_selector_parent.innerHTML = "<input placeholder = 'Enter name of the faculty' onkeyup = 'filterTable()' class = 'form-control' id = 'faculty'>"
+            faculty_selector_parent.innerHTML = "<input placeholder = 'Enter name of the faculty' onkeyup = 'filterTable()' class = 'form-control' id = 'faculty'>";
+
+    '''
+
+browser.execute_script(js)
+
+js = '''
+
+    function changeUI() {
+
+            window.filterTable = function() {
+                var faculty_name = document.getElementById('faculty').value;
+                console.log("hahaha");
+                var all_rows = Array.prototype.slice.call(document.querySelectorAll('tbody tr'));
+                all_rows = all_rows.slice(1,);
+                console.log('hahahah2');
+
+                for(var i = 0; i < all_rows.length; i++) {
+                    var all_tds = Array.prototype.slice.call(all_rows[i].querySelectorAll("td"));
+                    var td_faculty_name = (all_tds[6].textContent.split(' - '))[1];
+
+                    if(td_faculty_name.includes(faculty_name.toUpperCase())) {
+                        console.log('hahahah3');
+                        all_rows[i].style.display = "";
+                        continue;
+                    }
+                    else {
+                        console.log('hahaha4');
+                        all_rows[i].style.display = "none";
+                    }
+                }
+                document.body.setAttribute("faculty_name", faculty_name);
+            };
+
+            document.querySelector('#getFacultyForCoursePage label').outerHTML = '<font color= "red">' + document.querySelector('#getFacultyForCoursePage label').outerHTML + '</font>';
+
+            var faculty_selector_parent = document.getElementById('faculty').parentNode;
+            faculty_selector_parent.innerHTML = "<input placeholder = 'Enter name of the faculty' onkeyup = 'filterTable()' class = 'form-control' id = 'faculty'>";
+        }
+
+        document.getElementById('courseCode').onchange = "javascript:getSlotIdForCoursePage('courseCode','getSlotIdForCoursePage','source'); changeUI();";
 
         '''
-    browser.execute_script(js)
-    time.sleep(30)
+
+# while True:
+browser.execute_script(js)
+time.sleep(60)
