@@ -230,7 +230,7 @@ try:
 
     def download_course_materials:
         #TODO: prefix checkboxes in front of each material in the table
-        prefix_checkboxes_inject_dwnld_btn();
+        prefix_checkboxes_inject_dwnld_btn()
         js =
         '''
             var links = [];
