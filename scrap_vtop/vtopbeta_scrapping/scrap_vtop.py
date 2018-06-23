@@ -10,6 +10,7 @@ from selenium.common.exceptions import NoSuchWindowException
 from selenium.webdriver.support.ui import Select
 from PIL import Image
 from parser import CaptchaParse
+from downloader import download_files
 
 #2. Read registration number, password and semester from user-inputs
 registration_num = input('Enter registration number: ')
@@ -228,11 +229,10 @@ try:
             '''
         browser.execute_script(js)
 
-    def download_course_materials:
+    def download_course_materials():
         #TODO: prefix checkboxes in front of each material in the table
         prefix_checkboxes_inject_dwnld_btn()
-        js =
-        '''
+        js = '''
             var links = [];
             var downloader = document.getElementById('downloader');
             downloader.onclick = function() {
@@ -250,6 +250,8 @@ try:
         };
         '''
         links = browser.execute_script(js)
+        print(links)
+        # download_files(links)
 
     def find_element():
         try:
