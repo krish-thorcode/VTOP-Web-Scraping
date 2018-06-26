@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoSuchWindowException
 from selenium.webdriver.support.ui import Select
 from PIL import Image
 from parser import CaptchaParse
-from downloader import download_files
+from manyfunctions import *
 
 #2. Read registration number, password and semester from user-inputs
 registration_num = input('Enter registration number: ')
@@ -215,60 +215,9 @@ try:
                         };
             '''
 
-    def prefix_checkboxes_inject_dwnld_btn():
-        js = '''
-            var reference_material_paragraphs = Array.prototype.slice.call(document.querySelectorAll('td p'));
-
-            for(var i = 0; i < reference_material_paragraphs.length; i++)
-                reference_material_paragraphs[i].innerHTML = '<input type = checkbox>' + reference_material_paragraphs[i].innerHTML;
-
-            document.querySelector('.form-group.text-center:nth-child(3)').innerHTML = '<div class="col-md-12 col-md-offset-0.5">
-											<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" id="back" type="button" onclick="javascript:processbackToFilterCourse();">Go Back</a>
-											<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" href="/vtop/academics/common/coursePlanReport/">Download Course Plan</a>
-										<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" href="/vtop/academics/common/coursePlanReport/" id = "downloader">Download Selected Materials</a></div>'
-            '''
-        browser.execute_script(js)
-
-    def download_course_materials():
-        #TODO: prefix checkboxes in front of each material in the table
-        prefix_checkboxes_inject_dwnld_btn()
-        js = '''
-            var links = [];
-            var downloader = document.getElementById('downloader');
-            downloader.onclick = function() {
-                var reference_material_chkboxes = Array.prototype.slice.call(document.querySelectorAll('td p input[type = "checkbox"]'));
-                var reference_material_links = Array.prototype.slice.call(document.querySelectorAll('td p a'));
-
-                for(var i = 0 ; i < reference_material_chkboxes.length; i++) {
-                    if(reference_material_chkboxes[i].checked == true)
-                        links.push(reference_material_links[i]);
-                    else
-                        continue;
-                }
-
-            return links;
-        };
-        '''
-        links = browser.execute_script(js)
-        print(links)
-        # download_files(links)
-
-    def find_element():
-        try:
-            course_plan_download_elem = browser.find_element_by_css_selector('a[href="/vtop/academics/common/coursePlanReport/"]')
-            downloader_thread = threading.Thread(target = download_course_materials)
-            downloader_thread.start()
-            downloader_thread.join()
-            return False
-        except:
-            return False
-
     while True:
         browser.execute_script(js)
-        if find_element():
-            break
-        else:
-            continue
+        find_download_element()
 
 except NoSuchWindowException:
     print('Either the browser is closed or the Authorization failed! Do comeback!')
