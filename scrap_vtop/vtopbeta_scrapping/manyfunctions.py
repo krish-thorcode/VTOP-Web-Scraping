@@ -42,15 +42,25 @@ def download_course_materials():
     date_re_str = r'(\d{2})-([A-Za-z]{3})-(\d{4})'
     date_re = re.compile(date_re_str)
 
+#Finding the most recent exam that got finished
+    if exam_schedule.exam_schedule['CAT-1_end'] < today_date:
+        exam_done = 'CAT-1' # ie, download after lecture dates that fall in CAT-1 period
+    if exam_schedule.exam_schedule['CAT-2_end'] < today_date:
+        exam_done = 'CAT_2' # downlaod after lecture dates that fall in CAT-1 and CAT-2 period
+
     initial_row_num = len(rows_in_ref_material_table)
 
-# Remove those rows whose lecture_date < today's date
+
+# Remove those rows whose lecture_date < end date of exam that has alrady been conducted
     for i in range(1, initial_row_num):
         cells = rows_in_ref_material_table[i].find_elements_by_css_selector('td')
         lecture_date = cells[1].text
         mo = date_re.search(lecture_date)
+
+
+
         lecture_date = datetime.datetime(mo(3),mo(2),mo(1))
-        if today_date > lecture_date:
+        if exam_schedule.exam_schedule['CAT-1_end'] > lecture_date:
             rows_in_ref_material_table.remove(rows_in_ref_material_table[i])
 
 
