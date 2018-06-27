@@ -1,4 +1,4 @@
-import os, datetime, re, exam_schedule, zipfile, platform
+import os, datetime, re, exam_schedule, zipfile
 
 def inject_download_button():
     js = '''
@@ -39,7 +39,6 @@ def download_files(dir_name, download_links):
 
 #Download and save files
     for k, v in download_links.items(): # v is a list
-
         file_name = k + counter
         files_in_dir = os.listdir()
         if file_name in files_in_dir:

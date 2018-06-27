@@ -1,5 +1,5 @@
 #1. Make the imports
-import requests, sys, pytesseract, base64, getpass, datetime, time, threading, platform
+import requests, sys, pytesseract, base64, getpass, datetime, time, threading, platform, os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
@@ -27,12 +27,16 @@ today = datetime.datetime.now()
 
 print('Attempting to log you in...')
 
-#3. Open a controllable browser using Selenium webdriver module
+#3. Open a controllable browser using Selenium webdriver module with a custom download directory
 chrome_options = webdriver.ChromeOptions()
-prefs = {'download.default_directory': ''}
+system = platform.system()
+if system == 'Windows':
+    prefs = {'download.default_directory': 'C:\\VTOP_Course_Materials'}
+elif system == 'Linux':
+    prefs = {'download.default_directory': os.environ['HOME'] + '/VTOP_Course_Materials'}
+chrome_options.add_experimental_option('prefs', prefs)
 chromedriver = './chromedriver'
 browser = webdriver.Chrome(executable_path=chromedriver, chrome_options = chrome_options)
-browser.implicitly_wait(20)
 browser.maximize_window()
 
 #4. Create wait object
