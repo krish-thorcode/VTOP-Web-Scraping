@@ -1,7 +1,4 @@
-import os
-import datetime
-import re
-import exam_schedule
+import os, datetime, re, exam_schedule, zipfile, platform
 
 def inject_download_button():
     js = '''
@@ -25,16 +22,32 @@ def find_dir_name():
     else:
         return 'FAT'
 
-def download_files(links):
+def download_files(dir_name, download_links):
+    system = platform.system()
+    if system == 'Windows':
+        os.mkdir('C:\\VIT_downloads')
+        os.chdir('C:\\VIT_downloads')
+    if system == 'Linux':
+        os.mkdir(os.environ['HOME'] + '/VIT_downloads')
+        os.chdir(os.environ['HOME'] + '/VIT_downloads')
+    course_material_zip = zipfile.ZipFile((browser.find_element_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(1) > div > table > tbody > tr:nth-child(2) > td:nth-child(2)')).text, 'w')
+    os.mkdir(dir_name)
+    os.chdir(dir_name)
 
+    counter = ''
+    counter_append = 0
 
+#Download and save files
+    for k, v in download_links.items(): # v is a list
 
-#1. Ask for full path of the directory where the files are to be saved.
-    save_path = input('Enter the full path of directory you want to save the files in: ')
+        file_name = k + counter
+        files_in_dir = os.listdir()
+        if file_name in files_in_dir:
+            counter_append += 1
+            file_name = file_name + '_' + counter_append
 
 def download_course_materials():
     inject_download_button()
-    download_links = []
     rows_in_ref_material_table = browser.find_elements_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(3) > div:nth-child(2) > div > table > tbody > tr')
 
     now = datetime.datetime.now()
@@ -44,41 +57,43 @@ def download_course_materials():
 
 #Finding the most recent exam that got finished
     if exam_schedule.exam_schedule['CAT-1_end'] < today_date:
-        exam_done = 'CAT-1' # ie, download after lecture dates that fall in CAT-1 period
+        exam_done = 'CAT-1' # ie, download after lecture dates that fall in CAT-1 period, or do not download CAT-1 files
     if exam_schedule.exam_schedule['CAT-2_end'] < today_date:
         exam_done = 'CAT_2' # downlaod after lecture dates that fall in CAT-1 and CAT-2 period
 
+    exam_done_end_date = exam_schedule.exam_schedule[exam_done+'_end']
     initial_row_num = len(rows_in_ref_material_table)
-
 
 # Remove those rows whose lecture_date < end date of exam that has alrady been conducted
     for i in range(1, initial_row_num):
         cells = rows_in_ref_material_table[i].find_elements_by_css_selector('td')
         lecture_date = cells[1].text
         mo = date_re.search(lecture_date)
-
-
-
         lecture_date = datetime.datetime(mo(3),mo(2),mo(1))
-        if exam_schedule.exam_schedule['CAT-1_end'] > lecture_date:
+
+        if exam_done_end_date > lecture_date:
             rows_in_ref_material_table.remove(rows_in_ref_material_table[i])
 
-
-    for i in range(1, len(rows_in_ref_material_table)):
-        cells = rows_in_ref_material_table[i].find_elements_by_css_selector('td')
-        lecture_date = cells[1]
-        mo = date_re.search(lecture_date)
-        lecture_date = datetime.datetime(mo(3),mo(2),mo(1))
-
+# Accumulate the download links for the reference materials
+    download_links = {}
     for i in range(1, len(rows_in_ref_material_table)):
         try:
-            anchor_tag = cells[len(cells)-1].find_element_by_css_selector('p a')
-            dir_name = find_dir_name(lecture_date)
-            download_link = anchor_tag.get_attribute('href')
-            download_links.append(download_link)
+            cells = rows_in_ref_material_table[i].find_elements_by_css_selector('td')
+            anchor_tags = cells[len(cells)-1].find_elements_by_css_selector('p a')
+            if exam_done == 'CAT-1':
+                dir_name = 'CAT-2'
+            elif exam_done == 'CAT-2':
+                dir_name = 'FAT'
+
+            key = cells[3].text
+            download_links[key] = []
+
+            for anchor_tag in anchor_tags:
+                download_link = 'https://vtopbeta.vit.ac.in' + anchor_tag.get_attribute('href')
+                download_links[key].append(download_link)
         except:
             pass
-    download_files(download_links)
+    download_files(dir_name, download_links)
 
 def find_download_element():
     try:

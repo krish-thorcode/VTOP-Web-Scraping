@@ -1,5 +1,5 @@
 #1. Make the imports
-import requests, sys, pytesseract, base64, getpass, datetime, time, threading
+import requests, sys, pytesseract, base64, getpass, datetime, time, threading, platform
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
@@ -28,11 +28,10 @@ today = datetime.datetime.now()
 print('Attempting to log you in...')
 
 #3. Open a controllable browser using Selenium webdriver module
-# profile = webdriver.FirefoxProfile()
-# profile.set_preference('webdriver_accept_untrusted_certs', True)
-# browser = webdriver.Firefox(firefox_profile = profile)
+chrome_options = webdriver.ChromeOptions()
+prefs = {'download.default_directory': ''}
 chromedriver = './chromedriver'
-browser = webdriver.Chrome(chromedriver)
+browser = webdriver.Chrome(executable_path=chromedriver, chrome_options = chrome_options)
 browser.implicitly_wait(20)
 browser.maximize_window()
 
