@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoSuchWindowException
 from selenium.webdriver.support.ui import Select
 from PIL import Image
 from parser import CaptchaParse
-from manyfunctions import *
+from source_of_functions import *
 
 #2. Read registration number, password and semester from user-inputs
 registration_num = input('Enter registration number: ')
@@ -22,8 +22,6 @@ if registration_num == '' or password == '':
     sys.exit()
 
 today = datetime.datetime.now()
-# print(semester)
-# sys.exit()
 
 print('Attempting to log you in...')
 
