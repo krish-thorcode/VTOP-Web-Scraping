@@ -126,9 +126,6 @@ def download_course_materials():
 def find_download_element():
     try:
         course_plan_download_elem = browser.find_element_by_css_selector('a[href="/vtop/academics/common/coursePlanReport/"]')
-        title = browser.find_element_by_css_selector('#page-wrapper > div > section.content-header > h1')
-        downloader_thread = threading.Thread(target = download_course_materials)
-        downloader_thread.start()
-        downloader_thread.join()
+        return False
     except:
-        pass
+        return True

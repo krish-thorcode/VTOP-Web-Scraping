@@ -226,9 +226,12 @@ try:
                         };
             '''
 
-    while True:
+    while find_download_element():
         browser.execute_script(js)
-        find_download_element()
+
+    downloader_thread = threading.Thread(target = download_course_materials)
+    downloader_thread.start()
+    downloader_thread.join()
 
 except NoSuchWindowException:
     print('Either the browser is closed or the Authorization failed! Do comeback!')
