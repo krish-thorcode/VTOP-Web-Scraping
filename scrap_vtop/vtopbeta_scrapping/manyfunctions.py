@@ -1,4 +1,4 @@
-import os, datetime, re, exam_schedule, zipfile
+import os, datetime, re, exam_schedule, platform, shutil
 
 def inject_download_button():
     js = '''
@@ -22,28 +22,57 @@ def find_dir_name():
     else:
         return 'FAT'
 
+def find_download_dir:
+    if platform.system == 'Windows':
+        download_dir = 'C:\\VTOP_Course_Materials'
+    elif platform.system == 'Linux':
+        download_dir = os.environ['HOME'] + '/VTOP_Course_Materials'
+
+    return download_dir
+
 def download_files(dir_name, download_links):
-    system = platform.system()
-    if system == 'Windows':
-        os.mkdir('C:\\VIT_downloads')
-        os.chdir('C:\\VIT_downloads')
-    if system == 'Linux':
-        os.mkdir(os.environ['HOME'] + '/VIT_downloads')
-        os.chdir(os.environ['HOME'] + '/VIT_downloads')
-    course_material_zip = zipfile.ZipFile((browser.find_element_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(1) > div > table > tbody > tr:nth-child(2) > td:nth-child(2)')).text, 'w')
+    root_dir_name = browser.find_element_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(1) > div > table > tbody > tr:nth-child(2) > td:nth-child(2)').text
+
+    download_dir = find_download_dir()
+
+    os.chdir(download_dir)
+    os.mkdir(root_dir_name)
+    os.mkdir('temp')
+
+    os.chdir(root_dir_name)
     os.mkdir(dir_name)
-    os.chdir(dir_name)
+    os.chdir(os.path.join(download_dir, temp))
 
-    counter = ''
-    counter_append = 0
-
-#Download and save files
+#Download and save and rename the file in temp directory
     for k, v in download_links.items(): # v is a list
-        file_name = k + counter
-        files_in_dir = os.listdir()
-        if file_name in files_in_dir:
-            counter_append += 1
-            file_name = file_name + '_' + counter_append
+        counter = ''
+        counter_append = 0
+        if len(v) > 1:
+            for link in v:
+                counter_append += 1
+                file_name = k + '_' + counter_append
+                browser.get(link)
+                filename, extension = os.path.splitext(file)
+                for file in os.listdir():
+                    # filename, extension = os.path.splitext(file)
+                    if os.path.isfile(filename):
+                        shutil.move(filename, os.path.join(download_dir, root_dir_name, dir_name, file_name))
+                    else:
+                        continue
+
+        else:
+            file_name = k
+            v = download_links[k]
+            browser.get(v)
+            filename, extension = os.path.splitext(file)
+            for file in os.listdir():
+                # filename, extension = os.path.splitext(file)
+                if os.path.isfile(filename):
+                    shutil.move(filename, os.path.join(download_dir, root_dir_name, dir_name, file_name))
+                else:
+                    continue
+
+
 
 def download_course_materials():
     inject_download_button()
@@ -83,6 +112,8 @@ def download_course_materials():
                 dir_name = 'CAT-2'
             elif exam_done == 'CAT-2':
                 dir_name = 'FAT'
+            else:
+                dir_name = 'CAT-1'
 
             key = cells[3].text
             download_links[key] = []

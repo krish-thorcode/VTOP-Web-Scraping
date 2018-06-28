@@ -29,11 +29,8 @@ print('Attempting to log you in...')
 
 #3. Open a controllable browser using Selenium webdriver module with a custom download directory
 chrome_options = webdriver.ChromeOptions()
-system = platform.system()
-if system == 'Windows':
-    prefs = {'download.default_directory': 'C:\\VTOP_Course_Materials'}
-elif system == 'Linux':
-    prefs = {'download.default_directory': os.environ['HOME'] + '/VTOP_Course_Materials'}
+download_dir = find_download_dir()
+prefs = {'download.default_directory': download_dir + '/temp'}
 chrome_options.add_experimental_option('prefs', prefs)
 chromedriver = './chromedriver'
 browser = webdriver.Chrome(executable_path=chromedriver, chrome_options = chrome_options)
