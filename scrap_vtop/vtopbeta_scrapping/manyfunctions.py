@@ -72,8 +72,6 @@ def download_files(dir_name, download_links):
                 else:
                     continue
 
-
-
 def download_course_materials():
     inject_download_button()
     rows_in_ref_material_table = browser.find_elements_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(3) > div:nth-child(2) > div > table > tbody > tr')

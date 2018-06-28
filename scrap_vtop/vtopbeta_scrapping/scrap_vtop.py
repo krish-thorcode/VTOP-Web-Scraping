@@ -74,11 +74,8 @@ try:
     try:
         waiting.until(EC.presence_of_element_located((By.ID, 'captchaCheck')))
         username_elem = browser.find_element_by_css_selector('#uname')
-        # print('Acquired the uname textbox')
         password_elem = browser.find_element_by_css_selector('#passwd')
-        # print('Acquired the password textbox')
         captcha_elem = browser.find_element_by_css_selector('#captchaCheck')
-        # print('Acquired the captcha textbox')
         captcha_img_elem = browser.find_element_by_css_selector('img[alt = "vtopCaptcha"]')
     except NoSuchElementException as err:
         print('Input elements with the given css selectors were not found: ' + err)
@@ -86,11 +83,9 @@ try:
 
     #10. Find the image source of the captcha image
     captcha_img_src = captcha_img_elem.get_attribute('src')
-    # print(captcha_img_src)
 
     #11. Extract the base64 stribg of the captcha image from the captcha_img_src
     base64_img = captcha_img_src[22:]
-    # print(base64_img)
 
     #12. Save the captcha image
     captcha_img = open('./captcha_save/captcha.png','wb')
@@ -100,7 +95,6 @@ try:
     #13. Convert the image into string
     img = Image.open('./captcha_save/captcha.png')
     captcha_str = CaptchaParse(img)
-    # print(captcha_str)
 
     #13. Fill in login details
     username_elem.send_keys(registration_num)
@@ -137,7 +131,6 @@ try:
     #16. Get the time table element and click on it
     waiting.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#dbMenu ul.sidebar-menu.tree>li:nth-child(2) li:nth-child(2)>a span')))
     coursepage_elem = browser.find_element_by_css_selector('#dbMenu ul.sidebar-menu.tree>li:nth-child(2) li:nth-child(4)>a span')
-    # print(timetable_elem)
     coursepage_elem.click()
     hamburger_elem.click()
 
