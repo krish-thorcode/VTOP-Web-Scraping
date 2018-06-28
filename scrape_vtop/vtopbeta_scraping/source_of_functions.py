@@ -22,10 +22,10 @@ def find_dir_name():
     else:
         return 'FAT'
 
-def find_download_dir:
-    if platform.system == 'Windows':
+def find_download_dir():
+    if platform.system() == 'Windows':
         download_dir = 'C:\\VTOP_Course_Materials'
-    elif platform.system == 'Linux':
+    elif platform.system() == 'Linux':
         download_dir = os.environ['HOME'] + '/VTOP_Course_Materials'
 
     return download_dir

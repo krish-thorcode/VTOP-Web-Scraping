@@ -1,5 +1,5 @@
-#1. Make the imports
-import requests, sys, pytesseract, base64, getpass, datetime, time, threading, platform, os
+# Make the imports
+import requests, sys, pytesseract, base64, getpass, datetime, time, threading, platform, os, argparse, shelve
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
@@ -12,14 +12,34 @@ from PIL import Image
 from parser import CaptchaParse
 from source_of_functions import *
 
-#2. Read registration number, password and semester from user-inputs
-registration_num = input('Enter registration number: ')
-password = getpass.getpass('Enter password: ')
 
-print('** make sure you enter correct registration number and password **')
-if registration_num == '' or password == '':
-    print('None of registration number, password, semester fields can be left empty.')
-    sys.exit()
+#1. Parse the arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('-n', '--newuser', help= 'Give this option if you are loggin in for the first time or \
+                    you want to login into a new account.', action = 'store_true')
+args = parser.parse_args()
+
+#2. Read registration number, password and semester from user-inputs if this is first time login or new login
+# and also shelve the credentials
+if args.newuser:
+    registration_num = input('Enter registration number: ')
+    password = getpass.getpass('Enter password: ')
+
+    if registration_num == '' or password == '':
+        print('None of registration number, password, semester fields can be left empty.')
+        sys.exit()
+
+    print('** make sure you enter correct registration number and password **')
+
+    shelf_file = shelve.open('./shelf/shelf_file')
+    shelf_file['registration_num'] = registration_num
+    shelf_file['password'] = password
+    shelf_file.close()
+else:
+    shelf_file = shelve.open('./shelf/shelf_file')
+    registration_num = shelf_file['registration_num']
+    password = shelf_file['password']
+    shelf_file.close()
 
 today = datetime.datetime.now()
 
