@@ -1,13 +1,13 @@
-import os, datetime, re, exam_schedule, platform, shutil, pprint
+import os, datetime, re, exam_schedule, platform, shutil, pprint, time
 
-def inject_download_button(browser):
-    js = '''
-        document.querySelector('.form-group.text-center:nth-child(3)').innerHTML = '<div class="col-md-12 col-md-offset-0.5">' +
-                                        '<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" id="back" type="button" onclick="javascript:processbackToFilterCourse();">Go Back</a>' +
-                                        '<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" href="/vtop/academics/common/coursePlanReport/">Download Course Plan</a>' +
-                                    '<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" href="/vtop/academics/common/coursePlanReport/" id = "downloader">Download Selected Materials</a></div>';
-        '''
-    browser.execute_script(js)
+# def inject_download_button(browser):
+#     js = '''
+#         document.querySelector('.form-group.text-center:nth-child(3)').innerHTML = '<div class="col-md-12 col-md-offset-0.5">' +
+#                                         '<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" id="back" type="button" onclick="javascript:processbackToFilterCourse();">Go Back</a>' +
+#                                         '<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" href="/vtop/academics/common/coursePlanReport/">Download Course Plan</a>' +
+#                                     '<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" href="/vtop/academics/common/coursePlanReport/" id = "downloader">Download Materials</a></div>';
+#         '''
+#     browser.execute_script(js)
 
 def find_dir_name():
     date_re_str = r'(\d{2})-([A-Za-z]{3})-(\d{4})'
@@ -52,15 +52,20 @@ def download_files(browser, dir_name, download_links):
             for link in v:
                 counter_append += 1
                 intuitive_file_name = k + '_' + str(counter_append)
+                # browser.switch_to_window(browser.window_handles[0])
+                print(' many files..link: ' + link)
                 browser.get(link)
-
+                # browser.switch_to_window(browser.window_handles[1])
                 while True:
+                    # print(os.listdir())
+                    # print(os.getcwd())
+                    time.sleep(1)
                     download_file_name = (os.listdir())[0]
                     filename, extension = os.path.splitext(download_file_name) # if download is done before this line is executed, then extension will be ppt or pdf, else it will be crdownload
                     download_filename, download_ext = os.path.splitext(filename) # if download was done, download_ext will be empty str, else it will be pdf or ppt
 
-                    if not download_ext: # download is complete
-                        shutil.move(filename, intuitive_file_name)
+                    if extension != 'crdownload' and not download_ext: # download is complete
+                        shutil.move(filename+extension, intuitive_file_name)
                         shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, dir_name))
                         break
 
@@ -68,18 +73,30 @@ def download_files(browser, dir_name, download_links):
                         continue
 
         else:
-            file_name = k
-            v = download_links[k]
-            browser.get(v)
-            filename, extension = os.path.splitext(file)
-            for file in os.listdir():
-                if os.path.isfile(filename):
-                    shutil.move(filename, os.path.join(download_dir, root_dir_name, dir_name, file_name))
-                else:
-                    continue
+            for link in v:
+                intuitive_file_name = k
+                # browser.switch_to_window(browser.window_handles[0])
+                print(' single files..link: ' + link)
+                browser.get(link)
+                # browser.switch_to_window(browser.window_handles[1])
+                while True:
+                    # print(os.listdir())
+                    # print(os.getcwd())
+                    time.sleep(1)
+                    download_file_name = (os.listdir())[0]
+                    filename, extension = os.path.splitext(download_file_name) # if download is done before this line is executed, then extension will be ppt or pdf, else it will be crdownload
+                    download_filename, download_ext = os.path.splitext(filename) # if download was done, download_ext will be empty str, else it will be pdf or ppt
+
+                    if extension != 'crdownload' and not download_ext: # download is complete
+                        shutil.move(filename+extension, intuitive_file_name)
+                        shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, dir_name))
+                        break
+
+                    else:
+                        continue
 
 def download_course_materials(browser):
-    inject_download_button(browser)
+    # inject_download_button(browser)
     rows_in_ref_material_table = browser.find_elements_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(3) > div:nth-child(2) > div > table > tbody > tr')
 
     now = datetime.datetime.now()
@@ -102,7 +119,7 @@ def download_course_materials(browser):
 
 # Remove those rows whose lecture_date < end date of exam that has alrady been conducted
     for i in range(1, initial_row_num):
-        print("i: " + str(i), "updated_row_num: " + str(updated_row_num))
+        # print("i: " + str(i), "updated_row_num: " + str(updated_row_num))
         if i >= updated_row_num:
             break
         cells = rows_in_ref_material_table[i].find_elements_by_css_selector('td')
@@ -135,13 +152,13 @@ def download_course_materials(browser):
         download_links[key] = []
         for anchor_tag in anchor_tags:
             href = anchor_tag.get_attribute('href')
-            print(str(i) + href)
-            download_link = 'https://vtopbeta.vit.ac.in' + href
+            # print(str(i) + href)
+            download_link = href
             download_links[key].append(download_link)
         # except:
         #     print('exception ho gaya')
         #     pass
-    pprint.pprint(download_links)
+    # pprint.pprint(download_links)
     download_files(browser, dir_name, download_links)
 
 # def find_download_element():

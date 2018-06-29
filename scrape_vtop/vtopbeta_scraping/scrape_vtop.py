@@ -17,6 +17,7 @@ from source_of_functions import *
 parser = argparse.ArgumentParser()
 parser.add_argument('-n', '--newuser', help= 'Give this option if you are loggin in for the first time or \
                     you want to login into a new account.', action = 'store_true')
+parser.add_argument('-s', '--savecredentials', help = 'Give this option to save the username and password you entered.', action = 'store_true')
 args = parser.parse_args()
 
 #2. Read registration number, password and semester from user-inputs if this is first time login or new login
@@ -31,6 +32,7 @@ if args.newuser:
 
     print('** make sure you enter correct registration number and password **')
 
+if args.savecredentials:
     shelf_file = shelve.open('./shelf/shelf_file')
     shelf_file['registration_num'] = registration_num
     shelf_file['password'] = password
@@ -236,12 +238,13 @@ try:
             # print('True')
             return True
 
-    while find_download_element():
-        browser.execute_script(js)
+    while True:
+        while find_download_element():
+            browser.execute_script(js)
 
-    downloader_thread = threading.Thread(target = download_course_materials, args = [browser])
-    downloader_thread.start()
-    downloader_thread.join()
+        downloader_thread = threading.Thread(target = download_course_materials, args = [browser])
+        downloader_thread.start()
+        downloader_thread.join()
 
 except NoSuchWindowException:
     print('Either the browser is closed or the Authorization failed! Do comeback!')
