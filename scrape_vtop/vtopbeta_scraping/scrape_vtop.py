@@ -226,10 +226,20 @@ try:
                         };
             '''
 
+    def find_download_element():
+        try:
+            time.sleep(1) # sleep so that the course material gets loaded by then if the button to view the page is clicked
+            course_plan_download_elem = browser.find_element_by_css_selector('a[href="/vtop/academics/common/coursePlanReport/"]')
+            # print('False')
+            return False
+        except NoSuchElementException:
+            # print('True')
+            return True
+
     while find_download_element():
         browser.execute_script(js)
 
-    downloader_thread = threading.Thread(target = download_course_materials)
+    downloader_thread = threading.Thread(target = download_course_materials, args = [browser])
     downloader_thread.start()
     downloader_thread.join()
 
