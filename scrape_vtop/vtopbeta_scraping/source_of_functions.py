@@ -1,14 +1,5 @@
 import os, datetime, re, exam_schedule, platform, shutil, time
 
-# def inject_download_button(browser):
-#     js = '''
-#         document.querySelector('.form-group.text-center:nth-child(3)').innerHTML = '<div class="col-md-12 col-md-offset-0.5">' +
-#                                         '<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" id="back" type="button" onclick="javascript:processbackToFilterCourse();">Go Back</a>' +
-#                                         '<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" href="/vtop/academics/common/coursePlanReport/">Download Course Plan</a>' +
-#                                     '<a style="padding:3px 16px;font-size:13px;" class="btn btn-primary" href="/vtop/academics/common/coursePlanReport/" id = "downloader">Download Materials</a></div>';
-#         '''
-#     browser.execute_script(js)
-
 def find_dir_name():
     date_re_str = r'(\d{2})-([A-Za-z]{3})-(\d{4})'
     date_re = re.compile(date_re_str)
@@ -56,18 +47,15 @@ def download_files(browser, dir_name, download_links):
             for link in v:
                 counter_append += 1
                 intuitive_file_name = k + '_' + str(counter_append)
-                # browser.switch_to_window(browser.window_handles[0])
+
                 print(' many files..link: ' + link)
                 browser.get(link)
                 time.sleep(2)
-                # browser.switch_to_window(browser.window_handles[1])
+
                 while True:
-                    # print(os.listdir())
-                    # print(os.getcwd())
-                    # time.sleep(2)
                     download_file_name = (os.listdir())[0]
                     filename, extension = os.path.splitext(download_file_name) # if download is done before this line is executed, then extension will be ppt or pdf, else it will be crdownload
-                    # download_filename, download_ext = os.path.splitext(filename) # if download was done, download_ext will be empty str, else it will be pdf or ppt
+                    # if download was done, download_ext will be empty str, else it will be pdf or ppt
                     print(extension)
                     if extension != '.crdownload': # and not download_ext: # download is complete
                         shutil.move(filename+extension, intuitive_file_name)
@@ -97,8 +85,7 @@ def download_files(browser, dir_name, download_links):
                     # time.sleep(2)
                     download_file_name = (os.listdir())[0]
                     filename, extension = os.path.splitext(download_file_name) # if download is done before this line is executed, then extension will be ppt or pdf, else it will be crdownload
-                    # download_filename, download_ext = os.path.splitext(filename) # if download was done, download_ext will be empty str, else it will be pdf or ppt
-                    # print('filename: '+filename+' extension: '+extension+' download_file_name: '+download_file_name+' download_ext: '+download_ext)
+                    # if download was done, download_ext will be empty str, else it will be pdf or ppt
                     print(extension)
                     if extension != '.crdownload':# and (download_ext == 'pdf' or 'ppt' in download_ext or 'doc' in download_ext): # download is complete
                         shutil.move(filename+extension, intuitive_file_name)
@@ -111,7 +98,6 @@ def download_files(browser, dir_name, download_links):
                         continue
 
 def download_course_materials(browser):
-    # inject_download_button(browser)
     print('Hold your seat, your files are downloading...')
     rows_in_ref_material_table = browser.find_elements_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(3) > div:nth-child(2) > div > table > tbody > tr')
 
@@ -131,11 +117,9 @@ def download_course_materials(browser):
 
     initial_row_num = len(rows_in_ref_material_table)
     updated_row_num = initial_row_num
-    # print('intial rows num: ' + str(initial_row_num))
 
 # Remove those rows whose lecture_date < end date of exam that has alrady been conducted
     for i in range(1, initial_row_num):
-        # print("i: " + str(i), "updated_row_num: " + str(updated_row_num))
         if i >= updated_row_num:
             break
         cells = rows_in_ref_material_table[i].find_elements_by_css_selector('td')
@@ -150,7 +134,6 @@ def download_course_materials(browser):
 # Accumulate the download links for the reference materials
     download_links = {}
     for i in range(1, len(rows_in_ref_material_table)):
-        # try:
         cells = rows_in_ref_material_table[i].find_elements_by_css_selector('td')
         anchor_tags = cells[len(cells)-1].find_elements_by_css_selector('p a')
 
@@ -168,21 +151,8 @@ def download_course_materials(browser):
         download_links[key] = []
         for anchor_tag in anchor_tags:
             href = anchor_tag.get_attribute('href')
-            # print(str(i) + href)
             download_link = href
             download_links[key].append(download_link)
-        # except:
-        #     print('exception ho gaya')
-        #     pass
-    # pprint.pprint(download_links)
-    download_files(browser, dir_name, download_links)
-    prit('Download finished!')
 
-# def find_download_element():
-#     try:
-#         course_plan_download_elem = browser.find_element_by_css_selector('a[href="/vtop/academics/common/coursePlanReport/"]')
-#         print('False')
-#         return False
-#     except:
-#         print('True')
-#         return True
+    download_files(browser, dir_name, download_links)
+    print('Download finished!')
