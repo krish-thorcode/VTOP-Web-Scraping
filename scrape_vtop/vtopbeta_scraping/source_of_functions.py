@@ -1,4 +1,9 @@
-import os, datetime, re, exam_schedule, platform, shutil, time
+import os, datetime, re, exam_schedule, platform, shutil, time, logging
+
+
+#set up log configuration to log download records
+logging.basicConfig(filename = 'log/downloadlog.txt', level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(message)s')
+logging.getLogger("requests").setLevel(logging.WARNING)
 
 def find_dir_name():
     date_re_str = r'(\d{2})-([A-Za-z]{3})-(\d{4})'
@@ -23,7 +28,7 @@ def find_download_dir():
 
 def download_files(browser, dir_name, download_links):
     root_dir_name = browser.find_element_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(1) > div > table > tbody > tr:nth-child(2) > td:nth-child(2)').text
-
+    logging.debug('Course name: ' + root_dir_name)
     download_dir = find_download_dir()
 
     os.chdir(download_dir)
@@ -35,9 +40,18 @@ def download_files(browser, dir_name, download_links):
     os.chdir(root_dir_name)
     faculty_name = browser.find_element_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(1) > div > table > tbody > tr:nth-child(2) > td:nth-child(6)').text
     faculty_name = (faculty_name.split(' - '))[1]
-    os.mkdir(faculty_name)
+    logging.debut('Faculty name: ' + faculty_name)
+
+    if not os.path.isdir(faculty_name):
+        os.mkdir(faculty_name)
     os.chdir(faculty_name)
-    os.mkdir(dir_name)
+
+    if not os.path.isdir(dir_name):
+        os.mkdir(dir_name)
+    else:
+        print('Files already downloaded.')
+        logging.debut('Files were already downloaded')
+        return
     os.chdir(os.path.join(download_dir, 'temp'))
 
 #Download and save and rename the file in temp directory
@@ -48,7 +62,7 @@ def download_files(browser, dir_name, download_links):
                 counter_append += 1
                 intuitive_file_name = k + '_' + str(counter_append)
 
-                print(' many files..link: ' + link)
+                logging.debug(intuitive_file_name + ': ' + str(len(v)) + ' files')
                 browser.get(link)
                 time.sleep(2)
 
@@ -56,15 +70,13 @@ def download_files(browser, dir_name, download_links):
                     download_file_name = (os.listdir())[0]
                     filename, extension = os.path.splitext(download_file_name) # if download is done before this line is executed, then extension will be ppt or pdf, else it will be crdownload
                     # if download was done, download_ext will be empty str, else it will be pdf or ppt
-                    print(extension)
                     if extension != '.crdownload': # and not download_ext: # download is complete
                         shutil.move(filename+extension, intuitive_file_name)
                         shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, faculty_name, dir_name))
-                        print('moved')
+                        logging.debug('File ' + str(counter_append) + ' downloaded.')
                         break
 
                     else:
-                        print('incomplete dwnld')
                         continue
 
         else:
@@ -75,26 +87,21 @@ def download_files(browser, dir_name, download_links):
                     intuitive_file_name = 'file' + str(counter)
                     counter += 1
                 # browser.switch_to_window(browser.window_handles[0])
-                print(' single files..link: ' + link)
+                logging.debug(intuitive_file_name + ': 1 file')
                 browser.get(link)
                 time.sleep(2)
                 # browser.switch_to_window(browser.window_handles[1])
                 while True:
-                    print(os.listdir())
-                    # print(os.getcwd())
-                    # time.sleep(2)
                     download_file_name = (os.listdir())[0]
                     filename, extension = os.path.splitext(download_file_name) # if download is done before this line is executed, then extension will be ppt or pdf, else it will be crdownload
                     # if download was done, download_ext will be empty str, else it will be pdf or ppt
-                    print(extension)
                     if extension != '.crdownload':# and (download_ext == 'pdf' or 'ppt' in download_ext or 'doc' in download_ext): # download is complete
                         shutil.move(filename+extension, intuitive_file_name)
                         shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, faculty_name, dir_name))
-                        print('moved')
+                        logging.debug('1 file downloaded.')
                         break
 
                     else:
-                        print('incomplete dwnld')
                         continue
 
 def download_course_materials(browser):

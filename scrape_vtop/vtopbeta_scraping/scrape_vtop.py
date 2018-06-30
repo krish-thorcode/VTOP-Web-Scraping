@@ -256,6 +256,7 @@ try:
             back_btn = browser.find_element_by_css_selector('#back')
             back_btn.click()
             waiting.until(EC.presence_of_element_located((By.ID, 'semesterSubId')))
+            print('Choose Semester Name and Course from the dropdown on the page.')
             continue
         else:
             browser.quit()
