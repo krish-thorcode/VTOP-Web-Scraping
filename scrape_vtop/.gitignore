@@ -4,3 +4,4 @@ captcha_decoder.py
 test2.py
 letters.bmp
 captcha.png
+shelf/*
