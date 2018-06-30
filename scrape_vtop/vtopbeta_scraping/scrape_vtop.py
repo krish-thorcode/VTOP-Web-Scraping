@@ -22,7 +22,7 @@ args = parser.parse_args()
 
 #2. Read registration number, password and semester from user-inputs if this is first time login or new login
 # and also shelve the credentials
-if args.newuser:
+if args.newuser and args.savecredentials:
     registration_num = input('Enter registration number: ')
     password = getpass.getpass('Enter password: ')
 
@@ -30,18 +30,37 @@ if args.newuser:
         print('None of registration number, password, semester fields can be left empty.')
         sys.exit()
 
-    print('** make sure you enter correct registration number and password **')
-
-if args.savecredentials:
     shelf_file = shelve.open('./shelf/shelf_file')
     shelf_file['registration_num'] = registration_num
     shelf_file['password'] = password
     shelf_file.close()
-else:
-    shelf_file = shelve.open('./shelf/shelf_file')
-    registration_num = shelf_file['registration_num']
-    password = shelf_file['password']
-    shelf_file.close()
+
+    print('** make sure you enter correct registration number and password **')
+
+if args.newuser and not args.savecredentials:
+    registration_num = input('Enter registration number: ')
+    password = getpass.getpass('Enter password: ')
+
+    if registration_num == '' or password == '':
+        print('None of registration number, password, semester fields can be left empty.')
+        sys.exit()
+
+#it is a plausible case that a user will choose to save credentials but is not using new credentials becase the plan is to ask
+# the user for new credentials only, ie, args.savecredentials and not args.newuser is being dropped to code for
+
+if not args.newuser and not args.savecredentials:
+
+    if not os.path.isfile('./shelf/shelf_file.dat'):
+        print('No saved credentials. Try again with -n option to login as a new user. You can use -s option with -n to save the credentials entered.')
+        sys.exit()
+
+    try:
+        shelf_file = shelve.open('./shelf/shelf_file')
+        registration_num = shelf_file['registration_num']
+        password = shelf_file['password']
+        shelf_file.close()
+    except:
+        pass
 
 today = datetime.datetime.now()
 

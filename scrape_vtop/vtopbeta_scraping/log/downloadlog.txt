@@ -13526,3 +13526,69 @@
 2018-06-30 18:27:47,966 - DEBUG - Finished Request
 2018-06-30 18:27:47,966 - DEBUG - POST http://127.0.0.1:60993/session/f48ab5cee63e29926f9d15ef14fa9f95/execute {"script": "\n                window.filterTable = function() {\n                    var faculty_name = document.getElementById('faculty').value;\n                    console.log(\"hahaha\");\n                    var all_rows = Array.prototype.slice.call(document.querySelectorAll('tbody tr'));\n                    all_rows = all_rows.slice(1,);\n                    console.log('hahahah2');\n\n                    for(var i = 0; i < all_rows.length; i++) {\n                        var all_tds = Array.prototype.slice.call(all_rows[i].querySelectorAll(\"td\"));\n                        var td_faculty_name = (all_tds[6].textContent.split(' - '))[1];\n\n                        if(td_faculty_name.includes(faculty_name.toUpperCase())) {\n                            console.log('hahahah3');\n                            all_rows[i].style.display = \"\";\n                            continue;\n                        }\n                        else {\n                            console.log('hahaha4');\n                            all_rows[i].style.display = \"none\";\n                        }\n                    }\n                    document.body.setAttribute(\"faculty_name\", faculty_name);\n                };\n\n            document.getElementById('courseCode').onchange = function() {\n                            getSlotIdForCoursePage('courseCode','getSlotIdForCoursePage','source');\n                            setTimeout(function() {\n                                    document.getElementById('getSlotIdForCoursePage').style.display = 'none';\n                                    document.querySelector('#getFacultyForCoursePage label').outerHTML = '<font color= \"red\">' + document.querySelector('#getFacultyForCoursePage label').outerHTML + '</font>';\n                                    var faculty_selector_parent = document.getElementById('faculty').parentNode;\n                                    faculty_selector_parent.innerHTML = \"<input placeholder = 'Enter name of the faculty' onkeyup = 'filterTable()' class = 'form-control' id = 'faculty'>\";\n                            }, 3500);\n                        };\n            ", "args": [], "sessionId": "f48ab5cee63e29926f9d15ef14fa9f95"}
 2018-06-30 18:27:47,970 - DEBUG - Finished Request
+2018-06-30 19:52:28,662 - DEBUG - POST http://127.0.0.1:56493/session {"capabilities": {"firstMatch": [{}], "alwaysMatch": {"browserName": "chrome", "platformName": "any", "goog:chromeOptions": {"prefs": {"download.default_directory": "/home/krish-thorcode/VTOP_Course_Materials/temp"}, "extensions": [], "args": []}}}, "desiredCapabilities": {"browserName": "chrome", "version": "", "platform": "ANY", "goog:chromeOptions": {"prefs": {"download.default_directory": "/home/krish-thorcode/VTOP_Course_Materials/temp"}, "extensions": [], "args": []}}}
+2018-06-30 19:52:29,875 - DEBUG - Finished Request
+2018-06-30 19:52:29,876 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/window/current/maximize {"windowHandle": "current", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:29,981 - DEBUG - Finished Request
+2018-06-30 19:52:29,981 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/url {"url": "http://vtop.vit.ac.in", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:42,007 - DEBUG - Finished Request
+2018-06-30 19:52:42,008 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "css selector", "value": "a[href = \"https://vtopbeta.vit.ac.in/vtop\"] font b", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:42,061 - DEBUG - Finished Request
+2018-06-30 19:52:42,061 - DEBUG - GET http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element/0.17691740244795762-1/text {"id": "0.17691740244795762-1", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:42,079 - DEBUG - Finished Request
+2018-06-30 19:52:42,079 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/url {"url": "https://vtopbeta.vit.ac.in/vtop", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:57,593 - DEBUG - Finished Request
+2018-06-30 19:52:57,593 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "css selector", "value": ".btn.btn-primary.pull-right", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:57,605 - DEBUG - Finished Request
+2018-06-30 19:52:57,605 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element/0.25927586151343585-1/click {"id": "0.25927586151343585-1", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:58,267 - DEBUG - Finished Request
+2018-06-30 19:52:58,267 - DEBUG - GET http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/window_handles {"sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:58,270 - DEBUG - Finished Request
+2018-06-30 19:52:58,271 - DEBUG - GET http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/window_handles {"sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:58,272 - DEBUG - Finished Request
+2018-06-30 19:52:58,272 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/window {"name": "CDwindow-009C8D19C6DEF3AE5FEC2BDBD8EB04C9", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:52:58,274 - DEBUG - Finished Request
+2018-06-30 19:52:58,274 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:01,697 - DEBUG - Finished Request
+2018-06-30 19:53:02,198 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:02,239 - DEBUG - Finished Request
+2018-06-30 19:53:02,740 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:02,757 - DEBUG - Finished Request
+2018-06-30 19:53:03,258 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:03,283 - DEBUG - Finished Request
+2018-06-30 19:53:03,784 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:03,806 - DEBUG - Finished Request
+2018-06-30 19:53:04,307 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:04,338 - DEBUG - Finished Request
+2018-06-30 19:53:04,839 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:04,856 - DEBUG - Finished Request
+2018-06-30 19:53:05,357 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:05,375 - DEBUG - Finished Request
+2018-06-30 19:53:05,876 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:05,916 - DEBUG - Finished Request
+2018-06-30 19:53:06,418 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:06,463 - DEBUG - Finished Request
+2018-06-30 19:53:06,964 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:06,982 - DEBUG - Finished Request
+2018-06-30 19:53:07,483 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:07,501 - DEBUG - Finished Request
+2018-06-30 19:53:08,002 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:08,018 - DEBUG - Finished Request
+2018-06-30 19:53:08,519 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:08,563 - DEBUG - Finished Request
+2018-06-30 19:53:09,065 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:09,109 - DEBUG - Finished Request
+2018-06-30 19:53:09,611 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:09,624 - DEBUG - Finished Request
+2018-06-30 19:53:10,125 - DEBUG - POST http://127.0.0.1:56493/session/5d6b1c7ba6b0a2b099bb4bcd52443953/element {"using": "id", "value": "captchaCheck", "sessionId": "5d6b1c7ba6b0a2b099bb4bcd52443953"}
+2018-06-30 19:53:10,141 - DEBUG - Finished Request
+2018-06-30 19:53:42,884 - DEBUG - POST http://127.0.0.1:40033/session {"capabilities": {"firstMatch": [{}], "alwaysMatch": {"browserName": "chrome", "platformName": "any", "goog:chromeOptions": {"prefs": {"download.default_directory": "/home/krish-thorcode/VTOP_Course_Materials/temp"}, "extensions": [], "args": []}}}, "desiredCapabilities": {"browserName": "chrome", "version": "", "platform": "ANY", "goog:chromeOptions": {"prefs": {"download.default_directory": "/home/krish-thorcode/VTOP_Course_Materials/temp"}, "extensions": [], "args": []}}}
+2018-06-30 19:53:43,463 - DEBUG - Finished Request
+2018-06-30 19:53:43,464 - DEBUG - POST http://127.0.0.1:40033/session/476297cac906197e51f7fc4cacb0b69c/window/current/maximize {"windowHandle": "current", "sessionId": "476297cac906197e51f7fc4cacb0b69c"}
+2018-06-30 19:53:43,570 - DEBUG - Finished Request
+2018-06-30 19:53:43,571 - DEBUG - POST http://127.0.0.1:40033/session/476297cac906197e51f7fc4cacb0b69c/url {"url": "http://vtop.vit.ac.in", "sessionId": "476297cac906197e51f7fc4cacb0b69c"}
+2018-06-30 19:54:00,995 - DEBUG - POST http://127.0.0.1:43121/session {"capabilities": {"firstMatch": [{}], "alwaysMatch": {"browserName": "chrome", "platformName": "any", "goog:chromeOptions": {"prefs": {"download.default_directory": "/home/krish-thorcode/VTOP_Course_Materials/temp"}, "extensions": [], "args": []}}}, "desiredCapabilities": {"browserName": "chrome", "version": "", "platform": "ANY", "goog:chromeOptions": {"prefs": {"download.default_directory": "/home/krish-thorcode/VTOP_Course_Materials/temp"}, "extensions": [], "args": []}}}
+2018-06-30 19:54:01,563 - DEBUG - Finished Request
+2018-06-30 19:54:01,564 - DEBUG - POST http://127.0.0.1:43121/session/a5f4927ff5fe4226acbcef09d822d950/window/current/maximize {"windowHandle": "current", "sessionId": "a5f4927ff5fe4226acbcef09d822d950"}
+2018-06-30 19:54:01,668 - DEBUG - Finished Request
+2018-06-30 19:54:01,669 - DEBUG - POST http://127.0.0.1:43121/session/a5f4927ff5fe4226acbcef09d822d950/url {"url": "http://vtop.vit.ac.in", "sessionId": "a5f4927ff5fe4226acbcef09d822d950"}
