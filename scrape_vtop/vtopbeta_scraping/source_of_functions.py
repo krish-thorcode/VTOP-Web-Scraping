@@ -1,4 +1,4 @@
-import os, datetime, re, exam_schedule, platform, shutil, pprint, time
+import os, datetime, re, exam_schedule, platform, shutil, time
 
 # def inject_download_button(browser):
 #     js = '''
@@ -55,16 +55,17 @@ def download_files(browser, dir_name, download_links):
                 # browser.switch_to_window(browser.window_handles[0])
                 print(' many files..link: ' + link)
                 browser.get(link)
+                time.sleep(2)
                 # browser.switch_to_window(browser.window_handles[1])
                 while True:
                     # print(os.listdir())
                     # print(os.getcwd())
-                    time.sleep(1)
+                    # time.sleep(2)
                     download_file_name = (os.listdir())[0]
                     filename, extension = os.path.splitext(download_file_name) # if download is done before this line is executed, then extension will be ppt or pdf, else it will be crdownload
-                    download_filename, download_ext = os.path.splitext(filename) # if download was done, download_ext will be empty str, else it will be pdf or ppt
-
-                    if extension != 'crdownload' and not download_ext: # download is complete
+                    # download_filename, download_ext = os.path.splitext(filename) # if download was done, download_ext will be empty str, else it will be pdf or ppt
+                    print(extension)
+                    if extension != '.crdownload': # and not download_ext: # download is complete
                         shutil.move(filename+extension, intuitive_file_name)
                         shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, dir_name))
                         break
@@ -73,26 +74,34 @@ def download_files(browser, dir_name, download_links):
                         continue
 
         else:
+            counter = 1
             for link in v:
                 intuitive_file_name = k
+                if intuitive_file_name == '':
+                    intuitive_file_name = 'file' + str(counter)
+                    counter += 1
                 # browser.switch_to_window(browser.window_handles[0])
                 print(' single files..link: ' + link)
                 browser.get(link)
+                time.sleep(2)
                 # browser.switch_to_window(browser.window_handles[1])
                 while True:
                     # print(os.listdir())
                     # print(os.getcwd())
-                    time.sleep(1)
+                    # time.sleep(2)
                     download_file_name = (os.listdir())[0]
                     filename, extension = os.path.splitext(download_file_name) # if download is done before this line is executed, then extension will be ppt or pdf, else it will be crdownload
-                    download_filename, download_ext = os.path.splitext(filename) # if download was done, download_ext will be empty str, else it will be pdf or ppt
-
-                    if extension != 'crdownload' and not download_ext: # download is complete
+                    # download_filename, download_ext = os.path.splitext(filename) # if download was done, download_ext will be empty str, else it will be pdf or ppt
+                    # print('filename: '+filename+' extension: '+extension+' download_file_name: '+download_file_name+' download_ext: '+download_ext)
+                    print(extension)
+                    if extension != '.crdownload':# and (download_ext == 'pdf' or 'ppt' in download_ext or 'doc' in download_ext): # download is complete
                         shutil.move(filename+extension, intuitive_file_name)
                         shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, dir_name))
+                        print('moved')
                         break
 
                     else:
+                        print('incomplete dwnld')
                         continue
 
 def download_course_materials(browser):

@@ -228,6 +228,10 @@ try:
                         };
             '''
 
+    js2 = '''
+            alert('Download for the exam to follow completed, go to the command prompt/terminal and give your response.');
+        '''
+
     def find_download_element():
         try:
             time.sleep(1) # sleep so that the course material gets loaded by then if the button to view the page is clicked
@@ -245,6 +249,16 @@ try:
         downloader_thread = threading.Thread(target = download_course_materials, args = [browser])
         downloader_thread.start()
         downloader_thread.join()
+        browser.execute_script(js2)
+        resp = input('Do you want to download for other courses?(y or n) ')
+        resp = resp.lower()
+        if resp == 'y' or resp == 'yes':
+            back_btn = browser.find_element_by_css_selector('#back')
+            back_btn.click()
+            waiting.until(EC.presence_of_element_located((By.ID, 'semesterSubId')))
+            continue
+        else:
+            browser.quit()
 
 except NoSuchWindowException:
     print('Either the browser is closed or the Authorization failed! Do comeback!')
