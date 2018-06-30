@@ -86,7 +86,7 @@ def download_files(browser, dir_name, download_links):
                 time.sleep(2)
                 # browser.switch_to_window(browser.window_handles[1])
                 while True:
-                    # print(os.listdir())
+                    print(os.listdir())
                     # print(os.getcwd())
                     # time.sleep(2)
                     download_file_name = (os.listdir())[0]

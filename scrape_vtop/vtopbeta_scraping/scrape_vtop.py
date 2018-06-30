@@ -229,7 +229,7 @@ try:
             '''
 
     js2 = '''
-            alert('Download for the exam to follow completed, go to the command prompt/terminal and give your response.');
+            alert('Download for the exam to follow completed, PRESS OK and go to the command prompt/terminal to continue/quit. ');
         '''
 
     def find_download_element():
