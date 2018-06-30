@@ -3,7 +3,6 @@ import os, datetime, re, exam_schedule, platform, shutil, time, logging
 
 #set up log configuration to log download records
 logging.basicConfig(filename = 'log/downloadlog.txt', level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(message)s')
-logging.getLogger("requests").setLevel(logging.WARNING)
 
 def find_dir_name():
     date_re_str = r'(\d{2})-([A-Za-z]{3})-(\d{4})'
@@ -40,7 +39,7 @@ def download_files(browser, dir_name, download_links):
     os.chdir(root_dir_name)
     faculty_name = browser.find_element_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(1) > div > table > tbody > tr:nth-child(2) > td:nth-child(6)').text
     faculty_name = (faculty_name.split(' - '))[1]
-    logging.debut('Faculty name: ' + faculty_name)
+    logging.debug('Faculty name: ' + faculty_name)
 
     if not os.path.isdir(faculty_name):
         os.mkdir(faculty_name)
@@ -50,7 +49,7 @@ def download_files(browser, dir_name, download_links):
         os.mkdir(dir_name)
     else:
         print('Files already downloaded.')
-        logging.debut('Files were already downloaded')
+        logging.debug('Files were already downloaded')
         return
     os.chdir(os.path.join(download_dir, 'temp'))
 
