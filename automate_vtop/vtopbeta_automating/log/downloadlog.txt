@@ -13592,3 +13592,9 @@
 2018-06-30 19:54:01,564 - DEBUG - POST http://127.0.0.1:43121/session/a5f4927ff5fe4226acbcef09d822d950/window/current/maximize {"windowHandle": "current", "sessionId": "a5f4927ff5fe4226acbcef09d822d950"}
 2018-06-30 19:54:01,668 - DEBUG - Finished Request
 2018-06-30 19:54:01,669 - DEBUG - POST http://127.0.0.1:43121/session/a5f4927ff5fe4226acbcef09d822d950/url {"url": "http://vtop.vit.ac.in", "sessionId": "a5f4927ff5fe4226acbcef09d822d950"}
+2018-06-30 20:37:02,194 - DEBUG - POST http://127.0.0.1:39711/session {"capabilities": {"firstMatch": [{}], "alwaysMatch": {"browserName": "chrome", "platformName": "any", "goog:chromeOptions": {"prefs": {"download.default_directory": "/home/krish-thorcode/VTOP_Course_Materials/temp"}, "extensions": [], "args": []}}}, "desiredCapabilities": {"browserName": "chrome", "version": "", "platform": "ANY", "goog:chromeOptions": {"prefs": {"download.default_directory": "/home/krish-thorcode/VTOP_Course_Materials/temp"}, "extensions": [], "args": []}}}
+2018-06-30 20:37:02,758 - DEBUG - Finished Request
+2018-06-30 20:37:02,759 - DEBUG - POST http://127.0.0.1:39711/session/ff259d568ac674807261d2a61e6e5aa7/window/current/maximize {"windowHandle": "current", "sessionId": "ff259d568ac674807261d2a61e6e5aa7"}
+2018-06-30 20:37:02,865 - DEBUG - Finished Request
+2018-06-30 20:37:02,865 - DEBUG - POST http://127.0.0.1:39711/session/ff259d568ac674807261d2a61e6e5aa7/url {"url": "http://vtop.vit.ac.in", "sessionId": "ff259d568ac674807261d2a61e6e5aa7"}
+2018-06-30 20:37:04,800 - DEBUG - Finished Request
