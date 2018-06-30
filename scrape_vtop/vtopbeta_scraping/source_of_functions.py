@@ -42,6 +42,10 @@ def download_files(browser, dir_name, download_links):
         os.mkdir('temp')
 
     os.chdir(root_dir_name)
+    faculty_name = browser.find_element_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(1) > div > table > tbody > tr:nth-child(2) > td:nth-child(6)').text
+    faculty_name = (faculty_name.split(' - '))[1]
+    os.mkdir(faculty_name)
+    os.chdir(faculty_name)
     os.mkdir(dir_name)
     os.chdir(os.path.join(download_dir, 'temp'))
 
@@ -67,10 +71,12 @@ def download_files(browser, dir_name, download_links):
                     print(extension)
                     if extension != '.crdownload': # and not download_ext: # download is complete
                         shutil.move(filename+extension, intuitive_file_name)
-                        shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, dir_name))
+                        shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, faculty_name, dir_name))
+                        print('moved')
                         break
 
                     else:
+                        print('incomplete dwnld')
                         continue
 
         else:
@@ -96,7 +102,7 @@ def download_files(browser, dir_name, download_links):
                     print(extension)
                     if extension != '.crdownload':# and (download_ext == 'pdf' or 'ppt' in download_ext or 'doc' in download_ext): # download is complete
                         shutil.move(filename+extension, intuitive_file_name)
-                        shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, dir_name))
+                        shutil.move(intuitive_file_name, os.path.join(download_dir, root_dir_name, faculty_name, dir_name))
                         print('moved')
                         break
 
@@ -106,6 +112,7 @@ def download_files(browser, dir_name, download_links):
 
 def download_course_materials(browser):
     # inject_download_button(browser)
+    print('Hold your seat, your files are downloading...')
     rows_in_ref_material_table = browser.find_elements_by_css_selector('#CoursePageLectureDetail > div > div.panel-body > div:nth-child(3) > div:nth-child(2) > div > table > tbody > tr')
 
     now = datetime.datetime.now()
@@ -169,6 +176,7 @@ def download_course_materials(browser):
         #     pass
     # pprint.pprint(download_links)
     download_files(browser, dir_name, download_links)
+    prit('Download finished!')
 
 # def find_download_element():
 #     try:
